@@ -1,0 +1,44 @@
+{
+  "name": "internship-management-backend",
+  "version": "0.0.1",
+  "description": "Many startup companies and other companies not having any application for managing interns. Using this application they can easily manage their interns and have history of data also. They can add new interns, assign work to them, create group of interns for working under employee, giving feedback to intern etc.",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lsoys/InternshipManagement.github.io.git"
+  },
+  "keywords": [
+    "nodejs",
+    "mongodb",
+    "reactjs",
+    "management",
+    "group-project",
+    "nodejs-api",
+    "mern-stack",
+    "management-api",
+    "mongodb-atlas",
+    "internship"
+  ],
+  "author": "sumitkawale, Sejal-Khilari, Anujakat5",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lsoys/InternshipManagement.github.io/issues"
+  },
+  "homepage": "https://lsoys.github.io/InternshipManagement.github.io/",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.0.3",
+    "ejs": "^3.1.8",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.0",
+    "mongoose": "^6.9.2",
+    "validator": "^13.9.0"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
