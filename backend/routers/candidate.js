@@ -4,7 +4,7 @@ const candidateController = require("../controllers/candidate")
 router = express.Router();
 
 // GET methods
-router.get("/", candidateController.getCandidates)
+router.get("/asdf", candidateController.getCandidates)
 
 // POST methods
 router.get("/", candidateController.createCandidate)
