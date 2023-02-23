@@ -24,7 +24,6 @@ import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { purple } from '@mui/material/colors';
 
 const drawerWidth = 260;
 
@@ -111,7 +110,7 @@ export default function MiniDrawer() {
 	const projectTheme = createTheme({
 		palette: {
 			primary: {
-				main: purple[800],
+				main: "#1f1f6f"
 			},
 			secondary: {
 				main: '#11cb5f',

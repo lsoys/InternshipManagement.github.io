@@ -1,12 +1,12 @@
 const express = require("express")
-const candidateController = require("../controllers/candidate")
+const router = express.Router();
+const controller = require("../controllers/candidate") 
 
-router = express.Router();
+// GET REQUESTS
+router.get("/", controller.getCandidates);
+router.get("/getInterns", controller.getInterns);
 
-// GET methods
-router.get("/", candidateController.getCandidates)
-
-// POST methods
-router.get("/", candidateController.createCandidate)
+// POST REQUESTS
+router.post("/", controller.addCandidate);
 
 module.exports = router;
