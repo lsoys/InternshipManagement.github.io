@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "/InternshipManagement.github.io/static/css/main.e6c13ad2.css",
-    "main.js": "/InternshipManagement.github.io/static/js/main.473d7b72.js",
+    "main.css": "/InternshipManagement.github.io/static/css/main.ba7389cf.css",
+    "main.js": "/InternshipManagement.github.io/static/js/main.34ee2d3c.js",
     "index.html": "/InternshipManagement.github.io/index.html",
-    "main.e6c13ad2.css.map": "/InternshipManagement.github.io/static/css/main.e6c13ad2.css.map",
-    "main.473d7b72.js.map": "/InternshipManagement.github.io/static/js/main.473d7b72.js.map"
+    "main.ba7389cf.css.map": "/InternshipManagement.github.io/static/css/main.ba7389cf.css.map",
+    "main.34ee2d3c.js.map": "/InternshipManagement.github.io/static/js/main.34ee2d3c.js.map"
   },
   "entrypoints": [
-    "static/css/main.e6c13ad2.css",
-    "static/js/main.473d7b72.js"
+    "static/css/main.ba7389cf.css",
+    "static/js/main.34ee2d3c.js"
   ]
 }
