@@ -24,6 +24,8 @@ import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { NavLink, Outlet } from 'react-router-dom';
+import "./App.css";
 
 const drawerWidth = 260;
 
@@ -110,7 +112,9 @@ export default function MiniDrawer() {
 	const projectTheme = createTheme({
 		palette: {
 			primary: {
-				main: "#1f1f6f"
+				main: "#1f1f6f",
+				// eslint-disable-next-line
+				main: "#370779",
 			},
 			secondary: {
 				main: '#11cb5f',
@@ -141,10 +145,11 @@ export default function MiniDrawer() {
 						>
 							<MenuIcon />
 						</IconButton>
-						<Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }}>
-							CompanySpace
-						</Typography>
-
+						<NavLink to="/">
+							<Typography variant="h6" noWrap component="div" sx={{ flexGrow: 1 }} style={{ color: "white" }}>
+								CompanySpace
+							</Typography>
+						</NavLink>
 					</Toolbar>
 				</AppBar>
 				<Drawer variant="permanent" open={open}>
@@ -155,159 +160,173 @@ export default function MiniDrawer() {
 					</DrawerHeader>
 					<Divider />
 					<List>
-						<ListItem disablePadding sx={{ display: 'block' }}>
-							<ListItemButton
-								sx={{
-									minHeight: 48,
-									justifyContent: open ? 'initial' : 'center',
-									px: 2.5,
-								}}
-							>
-								<ListItemIcon
+						<ListItem className={"navLink"} disablePadding sx={{ display: 'block' }}>
+							<NavLink to="/candidate/add">
+								<ListItemButton
 									sx={{
-										minWidth: 0,
-										mr: open ? 3 : 'auto',
-										justifyContent: 'center',
+										minHeight: 48,
+										justifyContent: open ? 'initial' : 'center',
+										px: 2.5,
 									}}
 								>
-									<AddBoxOutlinedIcon />
-								</ListItemIcon>
-								<ListItemText primary={"Add New Candidate"} sx={{ opacity: open ? 1 : 0 }} />
-							</ListItemButton>
+									<ListItemIcon
+										sx={{
+											minWidth: 0,
+											mr: open ? 3 : 'auto',
+											justifyContent: 'center',
+										}}
+									>
+										<AddBoxOutlinedIcon />
+									</ListItemIcon>
+									<ListItemText primary={"Add New Candidate"} sx={{ opacity: open ? 1 : 0 }} />
+								</ListItemButton>
+							</NavLink>
 						</ListItem>
-						<ListItem disablePadding sx={{ display: 'block' }}>
-							<ListItemButton
-								sx={{
-									minHeight: 48,
-									justifyContent: open ? 'initial' : 'center',
-									px: 2.5,
-								}}
-							>
-								<ListItemIcon
+						<ListItem className={"navLink"} disablePadding sx={{ display: 'block' }}>
+							<NavLink to="/candidate/get">
+								<ListItemButton
 									sx={{
-										minWidth: 0,
-										mr: open ? 3 : 'auto',
-										justifyContent: 'center',
+										minHeight: 48,
+										justifyContent: open ? 'initial' : 'center',
+										px: 2.5,
 									}}
 								>
-									<FeaturedPlayListOutlinedIcon />
-								</ListItemIcon>
-								<ListItemText primary={"List Of Candidates"} sx={{ opacity: open ? 1 : 0 }} />
-							</ListItemButton>
+									<ListItemIcon
+										sx={{
+											minWidth: 0,
+											mr: open ? 3 : 'auto',
+											justifyContent: 'center',
+										}}
+									>
+										<FeaturedPlayListOutlinedIcon />
+									</ListItemIcon>
+									<ListItemText primary={"List Of Candidates"} sx={{ opacity: open ? 1 : 0 }} />
+								</ListItemButton>
+							</ NavLink>
 						</ListItem>
-						<ListItem disablePadding sx={{ display: 'block' }}>
-							<ListItemButton
-								sx={{
-									minHeight: 48,
-									justifyContent: open ? 'initial' : 'center',
-									px: 2.5,
-								}}
-							>
-								<ListItemIcon
+						<ListItem className={"navLink"} disablePadding sx={{ display: 'block' }}>
+							<NavLink to="/candidate/interns">
+								<ListItemButton
 									sx={{
-										minWidth: 0,
-										mr: open ? 3 : 'auto',
-										justifyContent: 'center',
+										minHeight: 48,
+										justifyContent: open ? 'initial' : 'center',
+										px: 2.5,
 									}}
 								>
-									<ListAltOutlinedIcon />
-								</ListItemIcon>
-								<ListItemText primary={"List Of Interns"} sx={{ opacity: open ? 1 : 0 }} />
-							</ListItemButton>
+									<ListItemIcon
+										sx={{
+											minWidth: 0,
+											mr: open ? 3 : 'auto',
+											justifyContent: 'center',
+										}}
+									>
+										<ListAltOutlinedIcon />
+									</ListItemIcon>
+									<ListItemText primary={"List Of Interns"} sx={{ opacity: open ? 1 : 0 }} />
+								</ListItemButton>
+							</NavLink>
 						</ListItem>
 					</List>
 					<Divider />
 					<List>
-						<ListItem disablePadding sx={{ display: 'block' }}>
-							<ListItemButton
-								sx={{
-									minHeight: 48,
-									justifyContent: open ? 'initial' : 'center',
-									px: 2.5,
-								}}
-							>
-								<ListItemIcon
+						<ListItem className={"navLink"} disablePadding sx={{ display: 'block' }}>
+							<NavLink to="/groups">
+								<ListItemButton
 									sx={{
-										minWidth: 0,
-										mr: open ? 3 : 'auto',
-										justifyContent: 'center',
+										minHeight: 48,
+										justifyContent: open ? 'initial' : 'center',
+										px: 2.5,
 									}}
 								>
-									<PeopleAltOutlinedIcon />
-								</ListItemIcon>
-								<ListItemText primary={"Manage Groups"} sx={{ opacity: open ? 1 : 0 }} />
-							</ListItemButton>
+									<ListItemIcon
+										sx={{
+											minWidth: 0,
+											mr: open ? 3 : 'auto',
+											justifyContent: 'center',
+										}}
+									>
+										<PeopleAltOutlinedIcon />
+									</ListItemIcon>
+									<ListItemText primary={"Manage Groups"} sx={{ opacity: open ? 1 : 0 }} />
+								</ListItemButton>
+							</ NavLink>
 						</ListItem>
-						<ListItem disablePadding sx={{ display: 'block' }}>
-							<ListItemButton
-								sx={{
-									minHeight: 48,
-									justifyContent: open ? 'initial' : 'center',
-									px: 2.5,
-								}}
-							>
-								<ListItemIcon
+						<ListItem className={"navLink"} disablePadding sx={{ display: 'block' }}>
+							<NavLink to="/works">
+								<ListItemButton
 									sx={{
-										minWidth: 0,
-										mr: open ? 3 : 'auto',
-										justifyContent: 'center',
+										minHeight: 48,
+										justifyContent: open ? 'initial' : 'center',
+										px: 2.5,
 									}}
 								>
-									<EngineeringOutlinedIcon />
-								</ListItemIcon>
-								<ListItemText primary={"Assign Work"} sx={{ opacity: open ? 1 : 0 }} />
-							</ListItemButton>
+									<ListItemIcon
+										sx={{
+											minWidth: 0,
+											mr: open ? 3 : 'auto',
+											justifyContent: 'center',
+										}}
+									>
+										<EngineeringOutlinedIcon />
+									</ListItemIcon>
+									<ListItemText primary={"Assign Work"} sx={{ opacity: open ? 1 : 0 }} />
+								</ListItemButton>
+							</ NavLink>
 						</ListItem>
-						<ListItem disablePadding sx={{ display: 'block' }}>
-							<ListItemButton
-								sx={{
-									minHeight: 48,
-									justifyContent: open ? 'initial' : 'center',
-									px: 2.5,
-								}}
-							>
-								<ListItemIcon
+						<ListItem className={"navLink"} disablePadding sx={{ display: 'block' }}>
+							<NavLink to="/feedbacks">
+								<ListItemButton
 									sx={{
-										minWidth: 0,
-										mr: open ? 3 : 'auto',
-										justifyContent: 'center',
+										minHeight: 48,
+										justifyContent: open ? 'initial' : 'center',
+										px: 2.5,
 									}}
 								>
-									<FeedbackOutlinedIcon />
-								</ListItemIcon>
-								<ListItemText primary={"Feedbacks"} sx={{ opacity: open ? 1 : 0 }} />
-							</ListItemButton>
+									<ListItemIcon
+										sx={{
+											minWidth: 0,
+											mr: open ? 3 : 'auto',
+											justifyContent: 'center',
+										}}
+									>
+										<FeedbackOutlinedIcon />
+									</ListItemIcon>
+									<ListItemText primary={"Feedbacks"} sx={{ opacity: open ? 1 : 0 }} />
+								</ListItemButton>
+							</NavLink>
 						</ListItem>
 					</List>
 					<Divider />
-					<ListItem key={"LogOut"} disablePadding sx={{ display: 'block' }}>
-						<ListItemButton
-							sx={{
-								minHeight: 48,
-								justifyContent: open ? 'initial' : 'center',
-								px: 2.5,
-							}}
-						>
-							<ListItemIcon
+					<ListItem className={"navLink"} key={"LogOut"} disablePadding sx={{ display: 'block' }}>
+						<NavLink to="/logout">
+							<ListItemButton
 								sx={{
-									minWidth: 0,
-									mr: open ? 3 : 'auto',
-									justifyContent: 'center',
+									minHeight: 48,
+									justifyContent: open ? 'initial' : 'center',
+									px: 2.5,
 								}}
 							>
-								<LogoutIcon />
-							</ListItemIcon>
-							<ListItemText primary={"LogOut"} sx={{ opacity: open ? 1 : 0 }} />
-						</ListItemButton>
+								<ListItemIcon
+									sx={{
+										minWidth: 0,
+										mr: open ? 3 : 'auto',
+										justifyContent: 'center',
+									}}
+								>
+									<LogoutIcon />
+								</ListItemIcon>
+								<ListItemText primary={"LogOut"} sx={{ opacity: open ? 1 : 0 }} />
+							</ListItemButton>
+						</NavLink>
 					</ListItem>
 				</Drawer>
 				<Box component="main" sx={{ flexGrow: 1, p: 3 }}>
 					<DrawerHeader />
 					<main>
-						# content
+						<Outlet />
 					</main>
 				</Box>
 			</Box>
-		</ThemeProvider>
+		</ThemeProvider >
 	);
 }
