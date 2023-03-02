@@ -14,6 +14,11 @@ app.use((req, res, next) => {
     res.send("ERROR 404");
 })
 
+// ERROR HANDLERS
+app.use((error, req, res, next) => {
+    res.status(error.status ?? 404).send({ status: error.status ?? 404, error: error.message });
+});
+
 // SERVER
 const port = process.env.PORT ?? 2324;
 const databaseConnection = require("./database/connect")
