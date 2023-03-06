@@ -27,8 +27,54 @@
 
 
 /* ----------------- COMMON ----------------- */
+a {
+    text-decoration: none;
+}
+
+.bg-light {
+    background-color: #efefff44;
+    border-radius: 5px;
+}
+
 .headerGap {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
+}
+
+.container-top {
+    display        : flex;
+    justify-content: space-between;
+    align-items    : flex-start;
+    flex-wrap      : wrap;
+    margin-bottom  : .8rem;
+    padding-bottom : .8rem;
+}
+
+.container-top>button {
+    margin-right: 1rem;
+}
+
+.container-top span {
+    display       : flex;
+    flex-direction: row;
+    align-items   : stretch;
+}
+
+.container-top span>div {
+    width: 300px;
+}
+
+.container-top span div input {
+    width: 100%;
+}
+
+@media (max-width:760px) {
+    .container-top {
+        justify-content: flex-end;
+    }
+
+    .container-top>button {
+        display: none;
+    }
 }
 
 /* ================= COMMON ================= */

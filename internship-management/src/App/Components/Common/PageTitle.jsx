@@ -1,4 +1,4 @@
-import "./common.css";
+import "../../css/common.css";
 
 export default function PageTitle(props) {
     return <div className="pageTitle">
