@@ -4,7 +4,8 @@ import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import SearchIcon from '@mui/icons-material/Search';
-import { Link } from 'react-router-dom';
+import Typography from '@mui/material/Typography';
+import { Link, Outlet } from 'react-router-dom';
 
 import PageTitle from '../Common/PageTitle';
 import DataTable from '../Common/DataTable';
@@ -41,7 +42,10 @@ function createRows(rows) {
             sr: ++index,
             name: value.firstName + value.lastName,
             createDate: value.createDate,
-            operations: <Button size="small" variant="contained">Take Interview</Button>
+            operations:
+                <Link to={"/candidates/get/" + value._id}>
+                    <Button size="small" variant="contained" style={{textTransform:"capitalize"}}><Typography noWrap>Take Interview</Typography></Button>
+                </Link>
         }
     })
 }
@@ -66,7 +70,7 @@ export default function ListCandidates() {
         <div className='headerGap'></div>
 
         <div className='container-top'>
-            <Link to={"/candidate/add"}>
+            <Link to={"/candidates/add"}>
                 <Button variant="contained" color='info' startIcon={<AddBoxOutlinedIcon />}>
                     Add New Candidate
                 </Button>
@@ -94,6 +98,8 @@ export default function ListCandidates() {
                 </Button>
             </span>
         </div>
+
+        <Outlet />
 
         <div>
             <DataTable rows={rows} cols={columns} />

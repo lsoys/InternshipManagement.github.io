@@ -11,6 +11,7 @@ import ListInterns from './App/Components/Candidate/ListInterns';
 import Groups from './App/Components/Group/Groups';
 import Works from './App/Components/Work/Works';
 import Feedbacks from './App/Components/Feedback/Feedbacks';
+import CandidateInformation from './App/Components/Candidate/Components/CandidateInformation';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -20,10 +21,11 @@ root.render(
 			<Route path="/" element={<App />}>
 				<Route path="/" element={<Home />} />
 
-				<Route path="candidate/get/" element={<ListCandidates />} />
-				<Route path="candidate/add/" element={<NewCandidate />} />
-				<Route path="candidate/interns/" element={<ListInterns />} />
-
+				<Route path="candidates/add/" element={<NewCandidate />} />
+				<Route path="candidates/get/" element={<ListCandidates />}>
+					<Route path=':candidateID' element={<CandidateInformation />} />
+				</Route>
+				<Route path="candidates/interns/" element={<ListInterns />} />
 				<Route path="groups" element={<Groups />} />
 
 				<Route path="works" element={<Works />} />

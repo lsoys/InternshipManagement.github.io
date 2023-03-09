@@ -33,7 +33,7 @@ a {
 
 .bg-light {
     background-color: #efefff44;
-    border-radius: 5px;
+    border-radius   : 5px;
 }
 
 .headerGap {
@@ -47,10 +47,6 @@ a {
     flex-wrap      : wrap;
     margin-bottom  : .8rem;
     padding-bottom : .8rem;
-}
-
-.container-top>button {
-    margin-right: 1rem;
 }
 
 .container-top span {
@@ -72,9 +68,14 @@ a {
         justify-content: flex-end;
     }
 
-    .container-top>button {
+    .container-top>a>button {
         display: none;
     }
+}
+
+.space-between {
+    display        : flex;
+    justify-content: space-between;
 }
 
 /* ================= COMMON ================= */

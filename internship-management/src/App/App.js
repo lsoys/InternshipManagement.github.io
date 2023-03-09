@@ -161,7 +161,7 @@ export default function MiniDrawer() {
 					<Divider />
 					<List>
 						<ListItem className={"navLink"} disablePadding sx={{ display: 'block' }}>
-							<NavLink to="/candidate/add">
+							<NavLink to="/candidates/add">
 								<ListItemButton
 									sx={{
 										minHeight: 48,
@@ -183,7 +183,7 @@ export default function MiniDrawer() {
 							</NavLink>
 						</ListItem>
 						<ListItem className={"navLink"} disablePadding sx={{ display: 'block' }}>
-							<NavLink to="/candidate/get">
+							<NavLink to="/candidates/get">
 								<ListItemButton
 									sx={{
 										minHeight: 48,
@@ -205,7 +205,7 @@ export default function MiniDrawer() {
 							</ NavLink>
 						</ListItem>
 						<ListItem className={"navLink"} disablePadding sx={{ display: 'block' }}>
-							<NavLink to="/candidate/interns">
+							<NavLink to="/candidates/interns">
 								<ListItemButton
 									sx={{
 										minHeight: 48,
