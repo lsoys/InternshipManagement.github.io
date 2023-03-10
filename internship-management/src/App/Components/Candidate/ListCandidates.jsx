@@ -40,11 +40,11 @@ function createRows(rows) {
     return rows.map((value, index) => {
         return {
             sr: ++index,
-            name: value.firstName + value.lastName,
+            name: value.firstName + " " + value.lastName,
             createDate: value.createDate,
             operations:
                 <Link to={"/candidates/get/" + value._id}>
-                    <Button size="small" variant="contained" style={{textTransform:"capitalize"}}><Typography noWrap>Take Interview</Typography></Button>
+                    <Button size="small" variant="contained" style={{ textTransform: "capitalize" }}><Typography noWrap>Take Interview</Typography></Button>
                 </Link>
         }
     })
