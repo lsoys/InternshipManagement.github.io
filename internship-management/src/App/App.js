@@ -116,9 +116,6 @@ export default function MiniDrawer() {
 				// eslint-disable-next-line
 				main: "#370779",
 			},
-			secondary: {
-				main: '#11cb5f',
-			},
 		},
 	})
 
