@@ -116,6 +116,9 @@ export default function MiniDrawer() {
 				// eslint-disable-next-line
 				main: "#370779",
 			},
+			info: {
+				main: "rgb(113,116,255)"
+			}
 		},
 	})
 
