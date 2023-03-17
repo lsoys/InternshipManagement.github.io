@@ -5,11 +5,16 @@ import PopUp from "../../Common/PopUp";
 import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
 import DialogActions from '@mui/material/DialogActions';
-import { useState } from "react";
+import { useRef, useState } from "react";
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import CircleRoundedIcon from '@mui/icons-material/CircleRounded';
+import Checkbox from '@mui/material/Checkbox';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import { NumericFormatCustom } from "../../Common/FormCustom";
+import InputAdornment from '@mui/material/InputAdornment';
+import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
 
 const labels = {
     1: 'Useless',
@@ -30,12 +35,18 @@ export default function CandidateSelection(props) {
 
     const [value, setValue] = useState({});
     const [hover, setHover] = useState({});
+    const [payedInternshipCheck, updatePayedInternshipCheck] = useState(false);
+
+    // last popup of duration
+    const state = useState(false);
 
     const navigate = useNavigate();
 
     const handleClose = () => {
         navigate("/candidates/get/");
     };
+
+    const closeMainPopupRef = useRef(null);
 
     let candidate = {
         "_id": "63f6fe6fa20a5292596faf43",
@@ -56,7 +67,7 @@ export default function CandidateSelection(props) {
     }
 
     return <>
-        <PopUp popUpClose={handleClose} goBack>
+        <PopUp popUpClose={handleClose} goBack ref={closeMainPopupRef}>
             <DialogContent dividers>
                 <div>
                     <h4 style={{ fontWeight: "normal" }}>
@@ -290,13 +301,95 @@ export default function CandidateSelection(props) {
             </DialogContent>
             <DialogActions>
                 <Link to={""}>
+                    <Button variant="contained" color="info" onClick={() => state[1](true)}>
+                        Hire
+                    </Button>
+                </Link>
+                <Link to={""}>
+                    <Button variant="contained" color="error" onClick={() => closeMainPopupRef.current.handleClose()}>
+                        Reject
+                    </Button>
+                </Link>
+            </DialogActions>
+        </PopUp>
+
+        <PopUp title="Duration" state={state}>
+            <DialogContent dividers>
+                <div>
+                    <Box
+                        component="form"
+                        sx={{
+                            '& .MuiTextField-root': { m: 2 },
+                        }}
+                        autoComplete="off"
+                    >
+                        <div>
+                            <TextField
+                                required
+                                type={"date"}
+                                id="outlined-required"
+                                label="From Date"
+                                defaultValue=""
+                                helperText="Some important text"
+                                variant="filled"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                            <TextField
+                                required
+                                type={"date"}
+                                id="outlined-required"
+                                label="To Date"
+                                defaultValue=""
+                                helperText="Some important text"
+                                variant="filled"
+                                InputLabelProps={{
+                                    shrink: true,
+                                }}
+                            />
+                        </div>
+                        <div>
+                            <FormControlLabel
+                                id="payedInternshipCheck"
+                                sx={{
+                                    "marginLeft": "1rem"
+                                }}
+                                defaultValue={payedInternshipCheck}
+                                onChange={() => { updatePayedInternshipCheck(!payedInternshipCheck) }}
+                                control={<Checkbox defaultChecked />}
+                                label="payed internship?"
+                            />
+                            <br />
+                            {
+                                payedInternshipCheck || <TextField
+                                    id="outlined-required"
+                                    InputProps={{
+                                        inputComponent: NumericFormatCustom,
+                                    }}
+                                    label="Amount ₹"
+                                    defaultValue=""
+                                    startadornment={
+                                        <InputAdornment position="start">
+                                            <CurrencyRupeeIcon />
+                                        </InputAdornment>
+                                    }
+                                    helperText="Some important text"
+                                />
+                            }
+                        </div>
+                    </Box>
+                </div>
+            </DialogContent>
+            <DialogActions>
+                <Link to={""}>
                     <Button variant="contained" color="info">
                         Hire
                     </Button>
                 </Link>
                 <Link to={""}>
-                    <Button variant="contained" color="error">
-                        Reject
+                    <Button variant="contained" color="error" onClick={() => state[1](false)}>
+                        Cancel
                     </Button>
                 </Link>
             </DialogActions>

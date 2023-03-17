@@ -1,34 +1,10 @@
 import React from 'react';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
-import { NumericFormat } from 'react-number-format';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
-
 import PageTitle from '../Common/PageTitle';
-
-const NumericFormatCustom = React.forwardRef(function NumericFormatCustom(
-    props,
-    ref,
-) {
-    const { onChange, ...other } = props;
-
-    return (
-        <NumericFormat
-            {...other}
-            getInputRef={ref}
-            onValueChange={(values) => {
-                onChange({
-                    target: {
-                        name: props.name,
-                        value: values.value,
-                    },
-                });
-            }}
-            valueIsNumericString
-        />
-    );
-});
+import { NumericFormatCustom } from '../Common/FormCustom';
 
 export default function NewCandidate() {
     return <>
@@ -40,11 +16,9 @@ export default function NewCandidate() {
         <div className='bg-light'>
             <form>
                 <Box
-                    component="form"
                     sx={{
                         '& .MuiTextField-root': { m: 2 },
                     }}
-                    validate
                     autoComplete="off"
                 >
                     <div>
@@ -67,7 +41,10 @@ export default function NewCandidate() {
                         <TextField
                             id="outlined-number"
                             label="Age"
-                            type="number"
+                            name="numberformat"
+                            InputProps={{
+                                inputComponent: NumericFormatCustom,
+                            }}
                             helperText="Some important text"
                         />
                         <TextField
@@ -91,9 +68,14 @@ export default function NewCandidate() {
                             helperText="Some important text"
                         />
                         <TextField
-                            id="outlined-password-input"
+                            required
                             label="Alternative Mobile"
-                            type="number"
+                            name="numberformat"
+                            id="formatted-numberformat-input"
+                            InputProps={{
+                                inputComponent: NumericFormatCustom,
+                            }}
+                            variant="filled"
                             helperText="Some important text"
                         />
                         <TextField

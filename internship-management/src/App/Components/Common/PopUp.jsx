@@ -4,7 +4,7 @@ import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import PageTitle from "../Common/PageTitle";
 import { Link } from 'react-router-dom';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -48,21 +48,31 @@ BootstrapDialogTitle.propTypes = {
     onClose: PropTypes.func.isRequired,
 };
 
-export default function PopUp(props) {
-    const [open, setOpen] = useState(true);
+const PopUp = forwardRef((props, ref) => {
+
+    let [open, setOpen] = useState(true);
+    [open, setOpen] = props?.state ?? [open, setOpen];
 
     const handleClickOpen = () => {
         setOpen(true);
     };
 
-    const handleClose = () => {
+    function handleClose() {
         setOpen(false);
-        props.popUpClose();
+        props.popUpClose && props.popUpClose();
     };
 
+
     useEffect(() => {
-        handleClickOpen()
+        open && handleClickOpen();
+
+        // eslint-disable-next-line
     }, [])
+
+    useImperativeHandle(ref, () => ({
+        handleClose,
+        handleClickOpen,
+    }));
 
     return <div>
         <BootstrapDialog
@@ -88,4 +98,6 @@ export default function PopUp(props) {
             {props.children}
         </BootstrapDialog>
     </div>
-}
+});
+
+export default PopUp;

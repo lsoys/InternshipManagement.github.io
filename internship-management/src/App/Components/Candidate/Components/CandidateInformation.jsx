@@ -55,7 +55,6 @@ export default function CandidateInformation(props) {
                         sx={{
                             '& .MuiTextField-root': { m: 2 },
                         }}
-                        validate
                         autoComplete="off"
                     >
                         <div>

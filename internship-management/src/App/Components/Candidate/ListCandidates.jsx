@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import FeaturedPlayListOutlinedIcon from '@mui/icons-material/FeaturedPlayListOutlined';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
@@ -11,7 +12,6 @@ import PageTitle from '../Common/PageTitle';
 import DataTable from '../Common/DataTable';
 
 import data from "../../../TestData/candidates.json"
-import { useEffect, useState } from 'react';
 
 const columns = [
     {
