@@ -1,6 +1,8 @@
+const Users = require("../models/Users");
+
 const controller = {
-    login(req, res, next) {
-        res.send("working");
+    async login(req, res, next) {
+        res.send(await Users.find());
     },
     signup(req, res, next) {
         res.send("signup")
