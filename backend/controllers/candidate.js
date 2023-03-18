@@ -1,5 +1,5 @@
 const { createAPIError } = require("../errors/CustomeAPIError");
-const Candidate = require("../models/candidate")
+const Candidate = require("../models/Candidate")
 
 
 const controller = {

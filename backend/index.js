@@ -9,6 +9,9 @@ app.use(express.json());
 const candidateRouter = require("./routers/candidate")
 app.use("/candidate", candidateRouter);
 
+const authenticationRouter = require("./routers/authentication")
+app.use("/authentication", authenticationRouter)
+
 // ERRORs
 app.use((req, res, next) => {
     res.send("ERROR 404");
