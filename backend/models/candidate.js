@@ -45,7 +45,7 @@ const candidateSchema = new mongoose.Schema({
         trim: true,
     },
     collegeName: {
-        type: String,
+        type: String, 
         trim: true,
         required: [true, "collegeName is required field"]
     },
