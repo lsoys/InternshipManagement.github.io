@@ -1,9 +1,12 @@
 const express = require("express")
 const app = express();
+const cookieParser=require('cookie-parser')
 require("dotenv").config();
 
 // MIDDLEWARE
 app.use(express.json());
+
+app.use(cookieParser());
 
 // ROUTES
 const candidateRouter = require("./routers/candidate")
