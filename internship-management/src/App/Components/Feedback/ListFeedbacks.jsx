@@ -1,17 +1,16 @@
+import FeedbackOutlinedIcon from '@mui/icons-material/FeedbackOutlined';
 import { useEffect, useState } from 'react';
-import FeaturedPlayListOutlinedIcon from '@mui/icons-material/FeaturedPlayListOutlined';
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
-import Button from '@mui/material/Button';
-import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
-import SearchIcon from '@mui/icons-material/Search';
 import Typography from '@mui/material/Typography';
-import { Link, Outlet } from 'react-router-dom';
+import Autocomplete from '@mui/material/Autocomplete';
+import TextField from '@mui/material/TextField';
+import SearchIcon from '@mui/icons-material/Search';
+import { Link } from 'react-router-dom';
+import Button from '@mui/material/Button';
 
 import PageTitle from '../Common/PageTitle';
 import DataTable from '../Common/DataTable';
 
-import data from "../../../TestData/candidates.json"
+import data from "../../../TestData/interns.json"
 
 const columns = [
     {
@@ -25,14 +24,39 @@ const columns = [
         minWidth: 170
     },
     {
-        id: 'createDate',
-        label: 'Create',
+        id: 'startDate',
+        label: 'Start Date',
         format: (value) => value.toLocaleString('en-US'),
+        // minWidth: 170
+    },
+    {
+        id: 'endDate',
+        label: 'End Date',
+        format: (value) => value.toLocaleString('en-US'),
+        // minWidth: 170
+    },
+    // {
+    //     id: 'paid',
+    //     label: 'Paid',
+    // },
+    {
+        id: 'paidAmount',
+        label: 'Paid Amount',
+        // minWidth: 170
+    },
+    // {
+    //     id: 'stipend',
+    //     label: 'Stipend',
+    // },
+    {
+        id: 'stipendAmount',
+        label: 'Stipend Amount',
     },
     {
         id: 'operations',
         label: 'Operation',
         align: 'right',
+        // minWidth: 170
     },
 ];
 
@@ -41,16 +65,23 @@ function createRows(rows) {
         return {
             sr: ++index,
             name: value.firstName + " " + value.lastName,
-            createDate: value.createDate,
+            startDate: value.startDate,
+            endDate: value.endDate,
+            // paid: value.paid || "-",
+            paidAmount: value.paidAmount || "-",
+            // stipend: value.stipend,
+            stipendAmount: value.stipendAmount,
             operations:
-                <Link to={"/candidates/" + value._id}>
-                    <Button size="small" variant="contained" style={{ textTransform: "capitalize" }}><Typography noWrap>Take Interview</Typography></Button>
-                </Link>
+                <>
+                    <Link style={{ padding: ".1rem", display: "inline-block" }} to={""}>{/* + value._id */}
+                        <Button size="small" variant="contained" style={{ textTransform: "capitalize" }}><Typography noWrap>Give Feedback</Typography></Button>
+                    </Link>
+                </>
         }
     })
 }
 
-export default function ListCandidates() {
+export default function Feedbacks() {
     const [rows, updateRows] = useState([])
 
     useEffect(() => {
@@ -64,17 +95,13 @@ export default function ListCandidates() {
     ]
 
     return <>
-        <PageTitle title="list of candidates">
-            <FeaturedPlayListOutlinedIcon />
+        <PageTitle title="feedbacks">
+            <FeedbackOutlinedIcon />
         </PageTitle>
         <div className='headerGap'></div>
 
         <div className='container-top'>
-            <Link to={"/candidates/add"}>
-                <Button variant="contained" color='info' startIcon={<AddBoxOutlinedIcon />}>
-                    Add New Candidate
-                </Button>
-            </Link>
+            <div></div>
             <span>
                 <Autocomplete
                     freeSolo
@@ -99,9 +126,7 @@ export default function ListCandidates() {
             </span>
         </div>
 
-        <Outlet />
-
-        <div>
+        <div style={{ width: "100%" }}>
             <DataTable rows={rows} cols={columns} />
         </div>
     </>

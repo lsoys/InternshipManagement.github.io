@@ -1,11 +1,11 @@
+import DialogActions from '@mui/material/DialogActions';
+import { useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import PopUp from "../../Common/PopUp";
 import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
-import DialogActions from '@mui/material/DialogActions';
-import { useRef, useState } from "react";
 import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
@@ -43,7 +43,7 @@ export default function CandidateSelection(props) {
     const navigate = useNavigate();
 
     const handleClose = () => {
-        navigate("/candidates/get/");
+        navigate("/candidates/");
     };
 
     const closeMainPopupRef = useRef(null);
@@ -358,7 +358,17 @@ export default function CandidateSelection(props) {
                                 defaultValue={payedInternshipCheck}
                                 onChange={() => { updatePayedInternshipCheck(!payedInternshipCheck) }}
                                 control={<Checkbox defaultChecked />}
-                                label="payed internship?"
+                                label="paid internship ?"
+                            />
+                            <FormControlLabel
+                                id="payedInternshipCheck"
+                                sx={{
+                                    "marginLeft": "1rem"
+                                }}
+                                defaultValue={payedInternshipCheck}
+                                onChange={() => { updatePayedInternshipCheck(!payedInternshipCheck) }}
+                                control={<Checkbox defaultChecked />}
+                                label="stipend ?"
                             />
                             <br />
                             {
@@ -368,7 +378,7 @@ export default function CandidateSelection(props) {
                                         inputComponent: NumericFormatCustom,
                                     }}
                                     label="Amount ₹"
-                                    defaultValue=""
+                                    defaultValue="0"
                                     startadornment={
                                         <InputAdornment position="start">
                                             <CurrencyRupeeIcon />

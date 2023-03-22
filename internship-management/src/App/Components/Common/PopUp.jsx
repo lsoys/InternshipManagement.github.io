@@ -20,7 +20,7 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
 }));
 
 function BootstrapDialogTitle(props) {
-    const { children, onClose, ...other } = props;
+    const { children, onClose, open, ...other } = props;
 
     return (
         <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
@@ -46,6 +46,7 @@ function BootstrapDialogTitle(props) {
 BootstrapDialogTitle.propTypes = {
     children: PropTypes.node,
     onClose: PropTypes.func.isRequired,
+    open: PropTypes.bool.isRequired,
 };
 
 const PopUp = forwardRef((props, ref) => {
@@ -57,7 +58,7 @@ const PopUp = forwardRef((props, ref) => {
         setOpen(true);
     };
 
-    function handleClose() {
+    function handleClose(close) {
         setOpen(false);
         props.popUpClose && props.popUpClose();
     };
@@ -78,10 +79,12 @@ const PopUp = forwardRef((props, ref) => {
         <BootstrapDialog
             onClose={handleClose}
             aria-labelledby="customized-dialog-title"
-            maxWidth={"lg"}
+            maxWidth={"md"}
+            fullWidth={props.fullWidth}
+            disableEscapeKeyDown
             open={open}
         >
-            <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
+            <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose} open={open} >
                 {
                     props.goBack
                         ?

@@ -26,7 +26,8 @@ export default function DataTable(props) {
     };
 
 
-    return <Box sx={{ width: '90vw', margin: "auto" }}>
+    // return <Box sx={{ width: '90vw', margin: "auto" }}>
+    return <Box sx={{ width: '100%', margin: "auto" }}>
         <Paper sx={{ width: '100%' }}>
             <TableContainer sx={{ maxHeight: 460 }}>
                 <Table

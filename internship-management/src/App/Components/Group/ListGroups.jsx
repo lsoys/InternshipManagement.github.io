@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import FeaturedPlayListOutlinedIcon from '@mui/icons-material/FeaturedPlayListOutlined';
+import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
+import PageTitle from '../Common/PageTitle';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import Button from '@mui/material/Button';
@@ -8,7 +9,6 @@ import SearchIcon from '@mui/icons-material/Search';
 import Typography from '@mui/material/Typography';
 import { Link, Outlet } from 'react-router-dom';
 
-import PageTitle from '../Common/PageTitle';
 import DataTable from '../Common/DataTable';
 
 import data from "../../../TestData/candidates.json"
@@ -20,9 +20,19 @@ const columns = [
         minWidth: 10
     },
     {
+        id: 'id',
+        label: 'ID',
+        // minWidth: 170
+    },
+    {
         id: 'name',
         label: 'Name',
         minWidth: 170
+    },
+    {
+        id: 'status',
+        label: 'Status',
+        // minWidth: 170
     },
     {
         id: 'createDate',
@@ -43,14 +53,22 @@ function createRows(rows) {
             name: value.firstName + " " + value.lastName,
             createDate: value.createDate,
             operations:
-                <Link to={"/candidates/" + value._id}>
-                    <Button size="small" variant="contained" style={{ textTransform: "capitalize" }}><Typography noWrap>Take Interview</Typography></Button>
-                </Link>
+                <>
+                    <Link style={{ padding: ".1rem", display: "inline-block" }} to={"/id/edit"}>{/* + value._id */}
+                        <Button size="small" variant="contained" style={{ textTransform: "capitalize" }}><Typography noWrap>Edit</Typography></Button>
+                    </Link>
+                    <Link style={{ padding: ".1rem", display: "inline-block" }} to={"/id/delete"} >{/* + value._id */}
+                        <Button size="small" variant="contained" style={{ textTransform: "capitalize" }}><Typography noWrap>Delete</Typography></Button>
+                    </Link>
+                    <Link style={{ padding: ".1rem", display: "inline-block" }} to={"/works/assign/"} >{/* + value._id */}
+                        <Button size="small" variant="contained" style={{ textTransform: "capitalize" }}><Typography noWrap>Assign Work</Typography></Button>
+                    </Link>
+                </>
         }
     })
 }
 
-export default function ListCandidates() {
+export default function Groups() {
     const [rows, updateRows] = useState([])
 
     useEffect(() => {
@@ -64,15 +82,15 @@ export default function ListCandidates() {
     ]
 
     return <>
-        <PageTitle title="list of candidates">
-            <FeaturedPlayListOutlinedIcon />
+        <PageTitle title="manage groups">
+            <PeopleAltOutlinedIcon />
         </PageTitle>
         <div className='headerGap'></div>
 
         <div className='container-top'>
-            <Link to={"/candidates/add"}>
+            <Link to={"/groups/add"}>
                 <Button variant="contained" color='info' startIcon={<AddBoxOutlinedIcon />}>
-                    Add New Candidate
+                    Add New Group
                 </Button>
             </Link>
             <span>

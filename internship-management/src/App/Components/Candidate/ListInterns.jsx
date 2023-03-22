@@ -27,13 +27,13 @@ const columns = [
         id: 'startDate',
         label: 'Start Date',
         format: (value) => value.toLocaleString('en-US'),
-        minWidth: 170
+        // minWidth: 170
     },
     {
         id: 'endDate',
         label: 'End Date',
         format: (value) => value.toLocaleString('en-US'),
-        minWidth: 170
+        // minWidth: 170
     },
     // {
     //     id: 'paid',
@@ -42,7 +42,7 @@ const columns = [
     {
         id: 'paidAmount',
         label: 'Paid Amount',
-        minWidth: 170
+        // minWidth: 170
     },
     // {
     //     id: 'stipend',
@@ -51,13 +51,12 @@ const columns = [
     {
         id: 'stipendAmount',
         label: 'Stipend Amount',
-        minWidth: 170
     },
     {
         id: 'operations',
         label: 'Operation',
         align: 'right',
-        minWidth: 170
+        // minWidth: 170
     },
 ];
 

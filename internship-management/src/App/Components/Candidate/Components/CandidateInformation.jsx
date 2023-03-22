@@ -16,7 +16,7 @@ export default function CandidateInformation(props) {
     const navigate = useNavigate();
 
     const handleClose = () => {
-        navigate("/candidates/get/");
+        navigate("/candidates/");
     };
 
     let candidate = {
