@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 const { isEmail } = require("validator")
 
 // see range option
-const candidateSchema = new mongoose.Schema({
+const CandidateSchema = new mongoose.Schema({
     firstName: {
         type: String,
         trim: true,
@@ -45,7 +45,7 @@ const candidateSchema = new mongoose.Schema({
         trim: true,
     },
     collegeName: {
-        type: String, 
+        type: String,
         trim: true,
         required: [true, "collegeName is required field"]
     },
@@ -67,7 +67,35 @@ const candidateSchema = new mongoose.Schema({
     createDate: {
         type: String,
         default: new Date().toLocaleString(),
+    },
+    feedback: {
+        type: Object,
+    },
+    hire: {
+        type: Boolean, // 0=no status, 1 = hired, -1 = rejected
+        default: 0
+    },
+    hireDetails: {
+        type: Object,
     }
+
+    /* feedback{
+        "Communication Skills"
+        Collaborative Skills
+        Experience
+        Presentation Skills
+        Problem Solving Skills
+        Overall Feedback
+    } */
+
+    /* hire{
+        fromDate:
+        toDate:
+        isPaid:
+        isStipend:
+        amount:
+    } */
+
 })
 
-module.exports = mongoose.model("candidate", candidateSchema)// Candidate MODEL
+module.exports = mongoose.model("candidate", CandidateSchema)// Candidate MODEL

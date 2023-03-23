@@ -73,6 +73,9 @@ function createRows(rows) {
             stipendAmount: value.stipendAmount,
             operations:
                 <>
+                    <Link style={{ padding: ".1rem", display: "inline-block" }} to={"/candidates/interns/ID"}>{/* + value._id */}
+                        <Button size="small" variant="contained" style={{ textTransform: "capitalize" }}><Typography noWrap>Profile</Typography></Button>
+                    </Link>
                     <Link style={{ padding: ".1rem", display: "inline-block" }} to={"/works/"}>{/* + value._id */}
                         <Button size="small" variant="contained" style={{ textTransform: "capitalize" }}><Typography noWrap>Assign Work</Typography></Button>
                     </Link>

@@ -1,5 +1,5 @@
 const { createAPIError } = require("../errors/CustomeAPIError");
-const Candidate = require("../models/Candidate") 
+const Candidate = require("../models/Candidate")
 
 
 const controller = {
@@ -30,10 +30,32 @@ const controller = {
             const listErrors = Object.keys(error.errors).map((key) => {
                 return error.errors[key].properties.message;
             })
-            /* map, filter, reduce, forEach, for:in of */ 
+            /* map, filter, reduce, forEach, for:in of */
 
-            res.json(listErrors); 
+            res.json(listErrors);
             // return next(createAPIError(404, error.errors))x
+        }
+    },
+
+    async candidateSelection(req, res, next) {
+        const { candidateID, feedback, hire, hireDetails } = req.body;
+
+        /* {
+            id:234234,
+            feedback:{
+                question1:rating,
+                question2:rating,
+                question3:rating,
+                question4:rating,
+                question5:rating,
+                overallFeedback:string
+            }
+        } */
+        try {
+            // const candidate = await Candidate.findOne({ _id: candidateID });
+            
+        } catch {
+            res.status(404).json({ message: "problem to find candidate" })
         }
     }
 }

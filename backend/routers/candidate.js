@@ -9,5 +9,6 @@ router.get("/getInterns", controller.getInterns);
 
 // POST REQUESTS
 router.post("/", controller.addCandidate);
+router.post("/selection", controller.candidateSelection);
 
 module.exports = router;

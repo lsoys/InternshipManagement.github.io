@@ -302,7 +302,7 @@ export default function CandidateSelection(props) {
             <DialogActions>
                 <Link to={""}>
                     <Button variant="contained" color="info" onClick={() => state[1](true)}>
-                        Hire
+                        Proceed
                     </Button>
                 </Link>
                 <Link to={""}>
