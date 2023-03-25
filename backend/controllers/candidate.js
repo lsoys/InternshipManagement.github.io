@@ -13,8 +13,13 @@ const controller = {
         }
     },
 
-    getInterns(req, res, next) {
-        res.send("get interns");
+    async getInterns(req, res, next) {
+        try {
+            const candidates = await Candidate.find({ hire: 1 });
+            res.status(200).send(candidates)
+        } catch (error) {
+            return next(Error(error))
+        }
     },
 
     // POST REQUESTS
@@ -38,24 +43,47 @@ const controller = {
     },
 
     async candidateSelection(req, res, next) {
-        const { candidateID, feedback, hire, hireDetails } = req.body;
+        let { candidateId, feedback, hire, hireDetails } = req.body;
 
-        /* {
-            id:234234,
+        hire ??= 0; // sets default as 0
+
+        if (!candidateId) {
+            return res.status(404).json({ message: "candidateId and hire are required field" })
+        }
+
+        /* 
+            candidateId: 640026e92700147b0ad515a4,
             feedback:{
-                question1:rating,
-                question2:rating,
-                question3:rating,
-                question4:rating,
-                question5:rating,
-                overallFeedback:string
-            }
-        } */
-        try {
-            // const candidate = await Candidate.findOne({ _id: candidateID });
+                "Communication Skills"
+                Collaborative Skills
+                Experience
+                Presentation Skills
+                Problem Solving Skills
+                Overall Feedback
+            },
             
+            hire: 0/1/-1,
+
+            hireDetails:{ // not for rejection
+                fromDate:
+                toDate:
+                isPaid:
+                isStipend:
+                amount:
+            } */
+
+        try {
+            const candidate = await Candidate.updateOne({ _id: candidateId }, { feedback, hire, hireDetails }) // check for getting object
+            res.send(candidate);
         } catch {
             res.status(404).json({ message: "problem to find candidate" })
+        }
+    },
+
+    async addFeedback(req, res, next) {
+        const { candidateId, feedback } = req.body;
+        if (!candidateId) {
+            return res.status(404).json({ message: "candidateId and hire are required field" })
         }
     }
 }

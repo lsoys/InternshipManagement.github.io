@@ -25,7 +25,7 @@ UserSchema.statics.login=async function(username,password, res){
             // const salt = await bcrypt.genSalt();
             // const hashPassword = await bcrypt.hash("password", salt)
             // console.log(hashPassword)
-            res.status(400).send(" Invalid Credentials");
+            res.status(400).send("Invalid Password");
         }
     }else{
         res.status(400).send("Invalid User");

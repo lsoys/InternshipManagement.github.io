@@ -20,11 +20,6 @@ const columns = [
         minWidth: 10
     },
     {
-        id: 'id',
-        label: 'ID',
-        // minWidth: 170
-    },
-    {
         id: 'name',
         label: 'Name',
         minWidth: 170

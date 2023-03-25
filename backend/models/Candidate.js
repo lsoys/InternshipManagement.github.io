@@ -72,29 +72,16 @@ const CandidateSchema = new mongoose.Schema({
         type: Object,
     },
     hire: {
-        type: Boolean, // 0=no status, 1 = hired, -1 = rejected
+        type: Number, // 0=no status, 1 = hired, -1 = rejected
         default: 0
     },
     hireDetails: {
         type: Object,
+    },
+    status: {
+        type: Number,
+        default: 0 // 1=upcoming, 2=ongoing, 3=completed
     }
-
-    /* feedback{
-        "Communication Skills"
-        Collaborative Skills
-        Experience
-        Presentation Skills
-        Problem Solving Skills
-        Overall Feedback
-    } */
-
-    /* hire{
-        fromDate:
-        toDate:
-        isPaid:
-        isStipend:
-        amount:
-    } */
 
 })
 

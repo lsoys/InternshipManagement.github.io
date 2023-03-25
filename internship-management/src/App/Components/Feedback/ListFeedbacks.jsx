@@ -19,44 +19,48 @@ const columns = [
         minWidth: 10
     },
     {
+        id: 'n',
+        // label: 'Name',
+        minWidth: 30
+    },
+    {
         id: 'name',
         label: 'Name',
-        minWidth: 170
-    },
-    {
-        id: 'startDate',
-        label: 'Start Date',
-        format: (value) => value.toLocaleString('en-US'),
         // minWidth: 170
     },
-    {
-        id: 'endDate',
-        label: 'End Date',
-        format: (value) => value.toLocaleString('en-US'),
-        // minWidth: 170
-    },
-    // {
-    //     id: 'paid',
-    //     label: 'Paid',
-    // },
-    {
-        id: 'paidAmount',
-        label: 'Paid Amount',
-        // minWidth: 170
-    },
-    // {
-    //     id: 'stipend',
-    //     label: 'Stipend',
-    // },
-    {
-        id: 'stipendAmount',
-        label: 'Stipend Amount',
-    },
+    /*  {
+         id: 'startDate',
+         label: 'Start Date',
+         format: (value) => value.toLocaleString('en-US'),
+         // minWidth: 170
+     },
+     {
+         id: 'endDate',
+         label: 'End Date',
+         format: (value) => value.toLocaleString('en-US'),
+         // minWidth: 170
+     },
+     // {
+     //     id: 'paid',
+     //     label: 'Paid',
+     // },
+     {
+         id: 'paidAmount',
+         label: 'Paid Amount',
+         // minWidth: 170
+     },
+     // {
+     //     id: 'stipend',
+     //     label: 'Stipend',
+     // },
+     {
+         id: 'stipendAmount',
+         label: 'Stipend Amount',
+     }, */
     {
         id: 'operations',
         label: 'Operation',
         align: 'right',
-        // minWidth: 170
     },
 ];
 
@@ -74,7 +78,7 @@ function createRows(rows) {
             operations:
                 <>
                     <Link style={{ padding: ".1rem", display: "inline-block" }} to={""}>{/* + value._id */}
-                        <Button size="small" variant="contained" style={{ textTransform: "capitalize" }}><Typography noWrap>Give Feedback</Typography></Button>
+                        <Button size="small" variant="contained" style={{ textTransform: "capitalize" }}><Typography noWrap>Feedback</Typography></Button>
                     </Link>
                 </>
         }
@@ -126,7 +130,7 @@ export default function Feedbacks() {
             </span>
         </div>
 
-        <div style={{ width: "100%" }}>
+        <div style={{ width: "70%", margin: "0 auto" }}>
             <DataTable rows={rows} cols={columns} />
         </div>
     </>
