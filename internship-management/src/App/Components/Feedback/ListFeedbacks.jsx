@@ -129,6 +129,7 @@ export default function Feedbacks() {
                 </Button>
             </span>
         </div>
+        <div className='headerGap'></div>
 
         <div style={{ width: "70%", margin: "0 auto" }}>
             <DataTable rows={rows} cols={columns} />

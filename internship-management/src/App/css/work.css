@@ -1,0 +1,13 @@
+div[role="tabpanel"] {
+    animation: tabFade 300ms ease-in 1 forwards;
+}
+
+@keyframes tabFade {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}

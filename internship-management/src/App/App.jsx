@@ -112,7 +112,7 @@ export default function MiniDrawer() {
 	const projectTheme = createTheme({
 		palette: {
 			primary: {
-				main: "#1f1f6f",
+				// main: "#1f1f6f",
 				// eslint-disable-next-line
 				main: "#370779",
 			},

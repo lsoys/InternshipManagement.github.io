@@ -37,7 +37,7 @@ a {
 }
 
 .headerGap {
-    margin-top: 1.5rem;
+    margin-top: 1rem;
 }
 
 .container-top {
@@ -45,8 +45,6 @@ a {
     justify-content: space-between;
     align-items    : flex-start;
     flex-wrap      : wrap;
-    margin-bottom  : .8rem;
-    padding-bottom : .8rem;
 }
 
 .container-top span {

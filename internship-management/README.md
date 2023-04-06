@@ -1,1 +1,0 @@
-# Frontend Of Internship Management App

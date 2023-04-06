@@ -18,6 +18,8 @@ export default function NewCandidate() {
                 <Box
                     sx={{
                         '& .MuiTextField-root': { m: 2 },
+                        py: 4,
+                        px: 1
                     }}
                     autoComplete="off"
                 >
@@ -68,21 +70,21 @@ export default function NewCandidate() {
                             helperText="Some important text"
                         />
                         <TextField
-                            required
                             label="Alternative Mobile"
                             name="numberformat"
                             id="formatted-numberformat-input"
                             InputProps={{
                                 inputComponent: NumericFormatCustom,
                             }}
-                            variant="filled"
                             helperText="Some important text"
                         />
                         <TextField
+                            required
                             id="outlined-password-input"
                             label="EmailID"
                             style={{ maxWidth: "29rem" }}
                             type="email"
+                            variant="filled"
                             helperText="Some important text"
                         />
                         <br />
@@ -92,11 +94,9 @@ export default function NewCandidate() {
                             helperText="Some important text"
                         />
                         <TextField
-                            required
                             id="outlined-password-input"
                             label="Telegram"
                             helperText="Some important text"
-                            variant="filled"
                         />
                     </div>
                     <div>
@@ -108,7 +108,7 @@ export default function NewCandidate() {
                         <TextField
                             id="standard-required"
                             label="Current Graduation"
-                            defaultValue=""
+                            defaultValue="?"
                         />
                         <TextField
                             id="standard-required"
