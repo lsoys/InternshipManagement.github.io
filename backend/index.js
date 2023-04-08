@@ -10,7 +10,12 @@ app.use(cookieParser());
 
 // ROUTES
 const candidateRouter = require("./routers/candidate")
+const feedbackRouter = require("./routers/feedback")
+const groupRouter = require("./routers/group")
+
 app.use("/candidate", candidateRouter);
+app.use("/feedback", feedbackRouter);
+app.use("/group", groupRouter);
 
 const authenticationRouter = require("./routers/authentication")
 app.use("/authentication", authenticationRouter)

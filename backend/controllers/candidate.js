@@ -1,5 +1,5 @@
 const { createAPIError } = require("../errors/CustomeAPIError");
-const Candidate = require("../models/Candidate")
+const Candidate = require("../models/Candidate");
 
 
 const controller = {
@@ -79,13 +79,6 @@ const controller = {
             res.status(404).json({ message: "problem to find candidate" })
         }
     },
-
-    async addFeedback(req, res, next) {
-        const { candidateId, feedback } = req.body;
-        if (!candidateId) {
-            return res.status(404).json({ message: "candidateId and hire are required field" })
-        }
-    }
 }
 
 module.exports = controller;

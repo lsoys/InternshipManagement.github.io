@@ -1,14 +1,15 @@
 const mongoose = require("mongoose")
 
 const FeedbackSchema = new mongoose.Schema({
-    internId: String,
-    name: String,
+    internID: String,
     feedback: Array
 })
 
 /* feedback: {
-    candidateId:"234234",
-    [LIST OF FEEDBACKS]
+    {
+        dateTime,
+        feedbackMessage
+    }
 } */
 
-export default mongoose.model("feedback", FeedbackSchema);
+module.exports = mongoose.model("feedback", FeedbackSchema);

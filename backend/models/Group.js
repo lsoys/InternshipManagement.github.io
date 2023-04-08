@@ -8,7 +8,11 @@ const GroupSchema = new mongoose.Schema({
     interns: {
         type: Array,
         required: true
+    },
+    delete: {
+        type: Boolean,
+        default: false
     }
 })
 
-export default mongoose.model("group", GroupSchema);
+module.exports = mongoose.model("group", GroupSchema);
