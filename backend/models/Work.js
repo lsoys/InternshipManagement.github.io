@@ -24,7 +24,11 @@ const WorkSchema = new mongoose.Schema({
     description: {
         type: String,
         required: true,
-    }
+    },
+    createDate: {
+        type: String,
+        default: new Date().toLocaleString(),
+    },
 })
 
-export default mongoose.model("work", WorkSchema)
+module.exports = mongoose.model("work", WorkSchema)
