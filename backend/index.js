@@ -1,11 +1,24 @@
 const express = require("express")
 const app = express();
 const cookieParser = require('cookie-parser')
+const cors = require('cors');
 require("dotenv").config();
 
 // MIDDLEWARE
-app.use(express.json());
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+    res.setHeader('Access-Control-Allow-Credentials', true);
+    next();
+});
+// Allow requests from all origins with credentials
+app.use(cors({
+    origin: true,
+    credentials: true
+}));
 
+app.use(express.json());
 app.use(cookieParser());
 
 // ROUTES

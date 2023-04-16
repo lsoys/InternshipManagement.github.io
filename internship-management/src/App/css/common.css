@@ -76,4 +76,34 @@ a {
     justify-content: space-between;
 }
 
+.showFeedbackList {
+    list-style: none;
+}
+
+.showFeedbackList li {
+    display        : flex;
+    margin         : .4rem 0;
+    justify-content: space-around;
+    flex-wrap      : wrap;
+}
+
+.showFeedbackList li strong {
+    min-width: 20rem;
+}
+
+.showFeedbackList .text {
+    justify-content: flex-start;
+    margin-top     : 1rem;
+}
+
+.showFeedbackList .text strong {
+    width: 100%;
+}
+
+.showFeedbackList .text span {
+    border       : 1px solid #cdcdcd;
+    padding      : .2rem .5rem;
+    border-radius: 5px;
+}
+
 /* ================= COMMON ================= */

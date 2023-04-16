@@ -16,7 +16,6 @@ const CandidateSchema = new mongoose.Schema({
     age: {
         type: Number,
         trim: true,
-        required: [true, "age is required field"]
     },
     mobile: {
         type: Number,
@@ -26,7 +25,6 @@ const CandidateSchema = new mongoose.Schema({
     alternativeMobile: {
         type: Number,
         trim: true,
-        required: [true, "AlternativeMobile is required field"]
     },
     emailID: {
         type: String,
@@ -38,7 +36,6 @@ const CandidateSchema = new mongoose.Schema({
     github: {
         type: String,
         trim: true,
-        required: [true, "github is required field"]
     },
     telegram: {
         type: String,
@@ -47,17 +44,14 @@ const CandidateSchema = new mongoose.Schema({
     collegeName: {
         type: String,
         trim: true,
-        required: [true, "collegeName is required field"]
     },
     currentGraduation: {
         type: String,
         trim: true,
-        required: [true, "currentGraduation is required field"]
     },
     graduationYear: {
         type: String,
         trim: true,
-        required: [true, "graduationYear is required field"]
     },
     resumeLink: {
         type: String,

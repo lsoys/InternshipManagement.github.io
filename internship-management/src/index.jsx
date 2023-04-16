@@ -15,6 +15,7 @@ import CandidateInformation from './App/Components/Candidate/Components/Candidat
 import CandidateSelection from './App/Components/Candidate/Components/CandidateSelection';
 import NewGroup from './App/Components/Group/NewGroup';
 import Login from './Authentication/Login';
+import InternProfile from './App/Components/Candidate/Components/InternProfile';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -31,7 +32,9 @@ root.render(
 					<Route path=':candidateID' element={<CandidateInformation />} />
 					<Route path=':candidateID/selection' element={<CandidateSelection />} />
 				</Route>
-				<Route path="candidates/interns/" element={<ListInterns />} />
+				<Route path="candidates/interns/" element={<ListInterns />}>
+					<Route path=':candidateID' element={<InternProfile />} />
+				</Route>
 
 				<Route path="groups/" element={<Groups />}>
 					<Route path="add/" element={<NewGroup />} />

@@ -5,7 +5,11 @@ const authMiddleware = require("../middleware/authentication")
 
 // GET REQUESTS
 router.get("/", authMiddleware, controller.getCandidates);
+router.get("/search", authMiddleware, controller.searchCandidates);
 router.get("/intern", authMiddleware, controller.getInterns);
+router.get("/intern/search", authMiddleware, (req, res, next) => {
+    controller.searchCandidates(req, res, next, 1)
+});
 
 
 // POST REQUESTS

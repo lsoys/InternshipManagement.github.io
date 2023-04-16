@@ -10,25 +10,27 @@ async function createToken(id) {
 
 const controller = {
     async login(req, res, next) {
+        console.log(req.body);
         try {
             const user = await Users.login(req.body.username, req.body.password, res)
-
+            if (typeof user == "string") {
+                return res.status(404).json({ message: user })
+            }
             try {
                 const token = await createToken(user._id);
 
                 res.cookie("jwt", token, {
-                    maxAge: 1000 * 60 * 60 * 24 * process.env.JWT_EXPIRE
+                    maxAge: 1000 * 60 * 60 * 24 * process.env.JWT_EXPIRE,
                 })
 
-                res.send(token);
+                // console.log(token);
+                return res.status(200).send(token);
             } catch {
-                res.status(404).json({ message: "problem to create tokens" })
-                return;
+                return res.status(404).json({ message: "problem to create tokens" })
             }
 
         } catch (error) {
-            res.status(404).json({ message: "problem to get user details" })
-            return;
+            return res.status(404).json({ message: "problem to get user details", error })
         }
 
     },

@@ -1,6 +1,6 @@
+import { useRef, useState, useContext } from "react";
 import DialogActions from '@mui/material/DialogActions';
-import { useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Button from '@mui/material/Button';
 import { useNavigate } from 'react-router-dom';
 import PopUp from "../../Common/PopUp";
@@ -10,11 +10,24 @@ import Box from '@mui/material/Box';
 import Rating from '@mui/material/Rating';
 import CircleOutlinedIcon from '@mui/icons-material/CircleOutlined';
 import CircleRoundedIcon from '@mui/icons-material/CircleRounded';
-import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import { NumericFormatCustom } from "../../Common/FormCustom";
 import InputAdornment from '@mui/material/InputAdornment';
 import CurrencyRupeeIcon from '@mui/icons-material/CurrencyRupee';
+import Radio from '@mui/material/Radio';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormLabel from '@mui/material/FormLabel';
+
+import { CandidateContext } from '../ListCandidates';
+import common from "../../../../common"
+
+const questions = [
+    "Communication Skills",
+    "Collaborative Skills",
+    "Experience",
+    "Presentation Skills",
+    "Problem Solving Skills",
+]
 
 const labels = {
     1: 'Useless',
@@ -28,14 +41,50 @@ function getLabelText(value) {
     return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
 }
 
+function updateCandidateData(data) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    const jwt = common.getCookieJWT();
+    myHeaders.append("Authentication", "bearer " + jwt);
+
+    var requestOptions = {
+        method: 'PATCH',
+        headers: myHeaders,
+        body: JSON.stringify(data),
+        redirect: 'follow'
+    };
+
+    fetch("http://localhost:2324/candidate/selection", requestOptions)
+        .then(response => response.ok ? response.json() : response.text())
+        .then(result => console.log(result))
+        .catch(error => console.log('error', error));
+}
+
 export default function CandidateSelection(props) {
-    const params = useParams();
+    const { data, getData } = useContext(CandidateContext);
+
     // eslint-disable-next-line
-    const candidateID = params.candidateID;
+    const candidateID = useParams().candidateID;
 
     const [value, setValue] = useState({});
     const [hover, setHover] = useState({});
-    const [payedInternshipCheck, updatePayedInternshipCheck] = useState(false);
+
+    // console.log(value);
+
+    const [internshipType, updateInternshipType] = useState('free');
+    const [internshipAmount, updateInternshipAmount] = useState({ amount: 0, take: false });
+    const handleInternshipType = (event) => {
+        updateInternshipType(event.target.value);
+        let take = false;
+        let amount = 0;
+        if (event.target.value !== "free") {
+            take = true;
+            amount = internshipAmount.amount
+        }
+        updateInternshipAmount({ amount, take })
+    };
+    // console.log(internshipType)
+    // console.log(internshipAmount)
 
     // last popup of duration
     const state = useState(false);
@@ -48,247 +97,123 @@ export default function CandidateSelection(props) {
 
     const closeMainPopupRef = useRef(null);
 
-    let candidate = {
-        "_id": "63f6fe6fa20a5292596faf43",
-        "firstName": "sejal",
-        "lastName": "khilari",
-        "age": "21",
-        "mobile": "9898989898.0",
-        "alternativeMobile": "8787878787",
-        "emailID": "sejalkhilari2002@mail.com",
-        "github": "Sejal-Khilari",
-        "telegram": "sejalkhilari",
-        "collegeName": "pict",
-        "currentGraduation": "B.E.",
-        "graduationYear": "2024",
-        "resumeLink": "http://sejalkhilari/resume/link",
-        "createDate": "23/2/2023, 11:18:58 am",
-        "__v": "0"
+    let candidate = data.find(candidate => candidate._id === candidateID)
+    if (!candidate) {
+        return;
+    }
+
+    function getFeedback() {
+        return Object.keys(value).map((v) => {
+            if (v == "overallFeedback") {
+                return [v, value[v]]
+            }
+            return [questions[v], value[v]]
+        }).filter(v => { return v[1] !== -1 }); // remove questions of which answer is not specified
+    }
+
+    function submitReject(popup) {
+        const feedback = getFeedback();
+        const hire = -1;
+        const hireDetails = {}
+
+        const data = { candidateID, feedback, hire, hireDetails };
+        updateCandidateData(data);
+
+        popup.handleClose();
+
+        getData();
+    }
+
+    function submitHire(e) {
+        e.preventDefault();
+
+        const feedback = getFeedback();
+        const hire = 1;
+        const hireDetails = {
+            fromDate: e.target.fromDate.value,
+            toDate: e.target.toDate.value,
+            isPaid: internshipType === "paid",
+            isStipend: internshipType === "stipend",
+            amount: internshipAmount.amount
+        }
+
+        const data = { candidateID, feedback, hire, hireDetails };
+        updateCandidateData(data);
+
+        getData();
     }
 
     return <>
         <PopUp popUpClose={handleClose} goBack ref={closeMainPopupRef}>
             <DialogContent dividers>
                 <div>
-                    <h4 style={{ fontWeight: "normal" }}>
+                    <h4 style={{ fontWeight: "normal", minWidth: "35rem" }}>
                         <b>Candidate Name: </b>
                         {candidate.firstName + " " + candidate.lastName}
 
                         <span style={{ padding: "0 1rem" }}></span>
 
-                        <b>Candidate ID: </b>
-                        {candidateID}
+                        {/* <b>Candidate ID: </b> */}
+                        {/* {candidateID} */}
                     </h4>
 
                 </div>
             </DialogContent>
             <DialogContent dividers>
                 <div>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            width: "100%",
-                            p: 2,
-                            pt: 1,
-                            pb: 1,
-                            justifyContent: "space-between"
-                        }}
-                    >
-                        <span>Communication Skills </span>
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <Rating
-                                name="question-1"
-                                value={value.question1 ?? -1}
-                                precision={1}
-                                getLabelText={getLabelText}
-                                onChange={(event, newValue) => {
-                                    setValue((value) => {
-                                        return { ...value, question1: (newValue ? newValue : -1) }
-                                    });
+                    {
+                        questions.map((question, index) => {
+                            return <Box
+                                key={"question" + index}
+                                sx={{
+                                    display: 'flex',
+                                    alignItems: 'center',
+                                    width: "100%",
+                                    p: 2,
+                                    pt: 1,
+                                    pb: 1,
+                                    justifyContent: "space-between"
                                 }}
-                                onChangeActive={(event, newHover) => {
-                                    setHover((value) => {
-                                        return { ...value, question1: (newHover ? newHover : -1) }
-                                    })
-                                }}
-                                icon={<CircleRoundedIcon fontSize="inherit" color="info" />}
-                                emptyIcon={<CircleOutlinedIcon style={{ opacity: 0.55 }} color="primary" fontSize="inherit" />}
-                            />
-                            {value.question1 !== null && (
-                                <Box sx={{ ml: 2, width: "6rem" }}>{labels[(hover.question1 !== -1 || hover.question1 === undefined) ? hover.question1 : value.question1]}</Box>
-                            )}
-                        </Box>
-                    </Box>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            width: "100%",
-                            p: 2,
-                            pt: 1,
-                            pb: 1,
-                            justifyContent: "space-between"
-                        }}
-                    >
-                        <span>Collaborative Skills </span>
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <Rating
-                                name="question-1"
-                                value={value.question2}
-                                precision={1}
-                                getLabelText={getLabelText}
-                                onChange={(event, newValue) => {
-                                    setValue((value) => {
-                                        return { ...value, question2: (newValue ? newValue : -1) }
-                                    });
-                                }}
-                                onChangeActive={(event, newHover) => {
-                                    setHover((value) => {
-                                        return { ...value, question2: (newHover ? newHover : -1) }
-                                    })
-                                }}
-                                icon={<CircleRoundedIcon fontSize="inherit" color="info" />}
-                                emptyIcon={<CircleOutlinedIcon style={{ opacity: 0.55 }} color="primary" fontSize="inherit" />}
-                            />
-                            {value.question2 !== null && (
-                                <Box sx={{ ml: 2, width: "6rem" }}>{labels[(hover.question2 !== -1 || hover.question2 === undefined) ? hover.question2 : value.question2]}</Box>
-                            )}
-                        </Box>
-                    </Box>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            width: "100%",
-                            p: 2,
-                            pt: 1,
-                            pb: 1,
-                            justifyContent: "space-between"
-                        }}
-                    >
-                        <span>Experience </span>
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <Rating
-                                name="question-1"
-                                value={value.question3}
-                                precision={1}
-                                getLabelText={getLabelText}
-                                onChange={(event, newValue) => {
-                                    setValue((value) => {
-                                        return { ...value, question3: (newValue ? newValue : -1) }
-                                    });
-                                }}
-                                onChangeActive={(event, newHover) => {
-                                    setHover((value) => {
-                                        return { ...value, question3: (newHover ? newHover : -1) }
-                                    })
-                                }}
-                                icon={<CircleRoundedIcon fontSize="inherit" color="info" />}
-                                emptyIcon={<CircleOutlinedIcon style={{ opacity: 0.55 }} color="primary" fontSize="inherit" />}
-                            />
-                            {value.question3 !== null && (
-                                <Box sx={{ ml: 2, width: "6rem" }}>{labels[(hover.question3 !== -1 || hover.question3 === undefined) ? hover.question3 : value.question3]}</Box>
-                            )}
-                        </Box>
-                    </Box>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            width: "100%",
-                            p: 2,
-                            pt: 1,
-                            pb: 1,
-                            justifyContent: "space-between"
-                        }}
-                    >
-                        <span>Presentation Skills </span>
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <Rating
-                                name="question-1"
-                                value={value.question4}
-                                precision={1}
-                                getLabelText={getLabelText}
-                                onChange={(event, newValue) => {
-                                    setValue((value) => {
-                                        return { ...value, question4: (newValue ? newValue : -1) }
-                                    });
-                                }}
-                                onChangeActive={(event, newHover) => {
-                                    setHover((value) => {
-                                        return { ...value, question4: (newHover ? newHover : -1) }
-                                    })
-                                }}
-                                icon={<CircleRoundedIcon fontSize="inherit" color="info" />}
-                                emptyIcon={<CircleOutlinedIcon style={{ opacity: 0.55 }} color="primary" fontSize="inherit" />}
-                            />
-                            {value.question4 !== null && (
-                                <Box sx={{ ml: 2, width: "6rem" }}>{labels[(hover.question4 !== -1 || hover.question4 === undefined) ? hover.question4 : value.question4]}</Box>
-                            )}
-                        </Box>
-                    </Box>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            alignItems: 'center',
-                            width: "100%",
-                            p: 2,
-                            pt: 1,
-                            pb: 1,
-                            justifyContent: "space-between"
-                        }}
-                    >
-                        <span>Problem Solving Skills </span>
-                        <Box
-                            sx={{
-                                display: 'flex',
-                                alignItems: 'center',
-                            }}
-                        >
-                            <Rating
-                                name="question-1"
-                                value={value.question5}
-                                precision={1}
-                                getLabelText={getLabelText}
-                                onChange={(event, newValue) => {
-                                    setValue((value) => {
-                                        return { ...value, question5: (newValue ? newValue : -1) }
-                                    });
-                                }}
-                                onChangeActive={(event, newHover) => {
-                                    setHover((value) => {
-                                        return { ...value, question5: (newHover ? newHover : -1) }
-                                    })
-                                }}
-                                icon={<CircleRoundedIcon fontSize="inherit" color="info" />}
-                                emptyIcon={<CircleOutlinedIcon style={{ opacity: 0.55 }} color="primary" fontSize="inherit" />}
-                            />
-                            {value.question5 !== null && (
-                                <Box sx={{ ml: 2, width: "6rem" }}>{labels[(hover.question5 !== -1 || hover.question5 === undefined) ? hover.question5 : value.question5]}</Box>
-                            )}
-                        </Box>
-                    </Box>
+                            >
+                                <span>{question} </span>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                    }}
+                                >
+                                    <Rating
+                                        value={value[index] ?? 0}
+                                        precision={1}
+                                        getLabelText={getLabelText}
+                                        onChange={(event, newValue) => {
+                                            setValue((value) => {
+                                                return { ...value, [index]: (newValue || -1) }
+                                            });
+                                        }}
+                                        onChangeActive={(event, newHover) => {
+                                            setHover((value) => {
+                                                return { ...value, [index]: (newHover || -1) }
+                                            })
+                                        }}
+                                        icon={<CircleRoundedIcon fontSize="inherit" color="info" />}
+                                        emptyIcon={<CircleOutlinedIcon style={{ opacity: 0.55 }} color="primary" fontSize="inherit" />}
+                                    />
+                                    {
+                                        value[index] !== null && (
+                                            <Box sx={{ ml: 2, width: "6rem" }}>
+                                                {
+                                                    labels[(hover[index] !== -1 || hover[index] === undefined)
+                                                        ? hover[index]
+                                                        : value[index]]
+                                                }
+                                            </Box>
+                                        )
+                                    }
+                                </Box>
+                            </Box>
+                        })
+                    }
                     <br />
                     <TextField
                         id="outlined-multiline-static"
@@ -296,113 +221,116 @@ export default function CandidateSelection(props) {
                         fullWidth
                         multiline
                         rows={4}
+                        onChange={(event) => {
+                            setValue((value) => {
+                                return { ...value, overallFeedback: (event.target.value || "") }
+                            });
+                        }}
                     />
                 </div>
             </DialogContent>
             <DialogActions>
-                <Link to={""}>
-                    <Button variant="contained" color="info" onClick={() => state[1](true)}>
-                        Proceed
-                    </Button>
-                </Link>
-                <Link to={""}>
-                    <Button variant="contained" color="error" onClick={() => closeMainPopupRef.current.handleClose()}>
-                        Reject
-                    </Button>
-                </Link>
+                {/* <Link to={""}> */}
+                <Button variant="contained" color="info" onClick={() => state[1](true)}>
+                    Proceed
+                </Button>
+                {/* </Link> */}
+                {/* <Link to={""}> */}
+                <Button variant="contained" color="error" onClick={() => submitReject(closeMainPopupRef.current)}>
+                    Reject
+                </Button>
+                {/* </Link> */}
             </DialogActions>
         </PopUp>
 
         <PopUp title="Duration" state={state}>
-            <DialogContent dividers>
-                <div>
-                    <Box
-                        component="form"
-                        sx={{
-                            '& .MuiTextField-root': { m: 2 },
-                        }}
-                        autoComplete="off"
-                    >
-                        <div>
-                            <TextField
-                                required
-                                type={"date"}
-                                id="outlined-required"
-                                label="From Date"
-                                defaultValue=""
-                                helperText="Some important text"
-                                variant="filled"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            />
-                            <TextField
-                                required
-                                type={"date"}
-                                id="outlined-required"
-                                label="To Date"
-                                defaultValue=""
-                                helperText="Some important text"
-                                variant="filled"
-                                InputLabelProps={{
-                                    shrink: true,
-                                }}
-                            />
-                        </div>
-                        <div>
-                            <FormControlLabel
-                                id="payedInternshipCheck"
-                                sx={{
-                                    "marginLeft": "1rem"
-                                }}
-                                defaultValue={payedInternshipCheck}
-                                onChange={() => { updatePayedInternshipCheck(!payedInternshipCheck) }}
-                                control={<Checkbox defaultChecked />}
-                                label="paid internship ?"
-                            />
-                            <FormControlLabel
-                                id="payedInternshipCheck"
-                                sx={{
-                                    "marginLeft": "1rem"
-                                }}
-                                defaultValue={payedInternshipCheck}
-                                onChange={() => { updatePayedInternshipCheck(!payedInternshipCheck) }}
-                                control={<Checkbox defaultChecked />}
-                                label="stipend ?"
-                            />
-                            <br />
-                            {
-                                payedInternshipCheck || <TextField
+            <form onSubmit={submitHire}>
+                <DialogContent dividers>
+                    <div>
+                        <Box
+                            sx={{
+                                '& .MuiTextField-root': { m: 2 },
+                            }}
+                            autoComplete="off"
+                        >
+                            <div>
+                                <TextField
+                                    required
+                                    type={"date"}
                                     id="outlined-required"
-                                    InputProps={{
-                                        inputComponent: NumericFormatCustom,
+                                    label="From Date"
+                                    defaultValue=""
+                                    helperText=""
+                                    variant="filled"
+                                    name="fromDate"
+                                    InputLabelProps={{
+                                        shrink: true,
                                     }}
-                                    label="Amount ₹"
-                                    defaultValue="0"
-                                    startadornment={
-                                        <InputAdornment position="start">
-                                            <CurrencyRupeeIcon />
-                                        </InputAdornment>
-                                    }
-                                    helperText="Some important text"
                                 />
-                            }
-                        </div>
-                    </Box>
-                </div>
-            </DialogContent>
-            <DialogActions>
-                <Link to={""}>
-                    <Button variant="contained" color="info">
+                                <TextField
+                                    required
+                                    type={"date"}
+                                    id="outlined-required"
+                                    label="To Date"
+                                    defaultValue=""
+                                    helperText=""
+                                    variant="filled"
+                                    name="toDate"
+                                    InputLabelProps={{
+                                        shrink: true,
+                                    }}
+                                />
+                            </div>
+                            <div>
+                                <Box sx={{ "marginLeft": "1rem", "marginTop": "1rem" }}>
+                                    <FormLabel id="demo-controlled-radio-buttons-group">Internship Type</FormLabel>
+                                    <RadioGroup
+                                        aria-labelledby="demo-controlled-radio-buttons-group"
+                                        name="controlled-radio-buttons-group"
+                                        value={internshipType}
+                                        row
+                                        onChange={handleInternshipType}
+                                    >
+                                        <FormControlLabel value="paid" control={<Radio />} label="Paid" />
+                                        <FormControlLabel value="stipend" control={<Radio />} label="Stipend" />
+                                        <FormControlLabel value="free" control={<Radio />} label="Free" />
+                                    </RadioGroup>
+                                </Box>
+                                <br />
+                                {
+                                    (internshipType === "free") || < TextField
+                                        required
+                                        id="outlined-required"
+                                        InputProps={{
+                                            inputComponent: NumericFormatCustom,
+                                        }}
+                                        label="Amount ₹"
+                                        onKeyUp={e => updateInternshipAmount({ amount: (Number.parseInt(e.target.value) || 0), take: true })}
+                                        startadornment={
+                                            <InputAdornment position="start">
+                                                <CurrencyRupeeIcon />
+                                            </InputAdornment>
+                                        }
+                                        helperText=""
+                                    />
+                                }
+                            </div>
+                        </Box>
+                    </div>
+                </DialogContent>
+                <DialogActions>
+                    {/* <Link to={""}> */}
+                    <Button type="submit" variant="contained" color="info">
                         Hire
                     </Button>
-                </Link>
-                <Link to={""}>
+                    {/* </Link> */}
+                    {/* <Link to={""}> */}
                     <Button variant="contained" color="error" onClick={() => state[1](false)}>
                         Cancel
                     </Button>
-                </Link>
-            </DialogActions>
+                    {/* </Link> */}
+                </DialogActions>
+            </form>
         </PopUp>
     </>
 }
