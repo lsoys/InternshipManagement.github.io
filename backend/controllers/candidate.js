@@ -16,7 +16,7 @@ const controller = {
         try {
             const regex = new RegExp(req.query.q || "", "i"); // "i" makes the search case-insensitive
             const candidates = await Candidate.find({
-                $or: [{ firstName: regex }, { lastName: regex }, { emailID: regex }],
+                $or: [{ fullName: regex }, { emailID: regex }],
                 hire
             });
             res.status(200).send(candidates)

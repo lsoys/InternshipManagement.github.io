@@ -23,12 +23,12 @@ const columns = [
     {
         id: 'name',
         label: 'Name',
-        minWidth: 170
+        // minWidth: 170
     },
     {
         id: 'email',
         label: 'EmailID',
-        minWidth: 170
+        // minWidth: 170
     },
     {
         id: 'startDate',
@@ -71,7 +71,7 @@ function createRows(rows) {
     return rows.map((value, index) => {
         return {
             sr: ++index,
-            name: value.firstName + " " + value.lastName,
+            name: value.fullName,
             email: value.emailID,
             startDate: value.hireDetails.fromDate,
             endDate: value.hireDetails.toDate,
@@ -158,12 +158,14 @@ export default function ListInterns() {
 
             updateSearchOptions(() => {
                 const names = data.map(data => {
-                    return { title: data.firstName + " " + data.lastName };
+                    return { title: data.fullName ?? "" };
                 })
                 const emails = data.map(data => {
-                    return { title: data.emailID };
+                    return { title: data.emailID ?? "" };
                 })
-                return [...names, ...emails]
+                // give Set a new array that contains only string title, destructure set in array and on that array, iterate through map and get values as objects
+                let uniqueNames = [...new Set(names.map(data => data.title))].map(title => { return { title } })
+                return [...uniqueNames, ...emails]
             });
 
         })

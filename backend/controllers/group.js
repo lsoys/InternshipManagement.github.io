@@ -7,12 +7,17 @@ const controller = {
     },
 
     async addGroup(req, res, next) {
-        const { groupName, interns } = req.body;
-        if (groupName && interns) {
-            const group = await Group.create({ groupName, interns });
-            res.status(201).json(group)
-        } else {
-            res.status(404).json("groupName and interns are required fields")
+        try {
+            const { groupName, members } = req.body;
+            if (groupName && members) {
+                const group = await Group.create({ groupName, members });
+                res.status(201).json(group)
+            } else {
+                res.status(404).json("groupName and members[interns/groups] are required fields")
+            }
+        } catch (error) {
+            console.log(error)
+            res.status(404).json(error?.message)
         }
     },
 

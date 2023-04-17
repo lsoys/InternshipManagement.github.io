@@ -132,7 +132,7 @@ export default function Works() {
         <div className='headerGap'></div>
 
         <div className='container-top'>
-            <Link to={"/works/add"}>
+            <Link to={"/works/assign"}>
                 <Button variant="contained" color='info' startIcon={<AddBoxOutlinedIcon />}>
                     Assign New Task
                 </Button>

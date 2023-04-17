@@ -1,30 +1,34 @@
 import React, { useState } from 'react';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
+import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import CheckIcon from '@mui/icons-material/Check';
 import PageTitle from '../Common/PageTitle';
 import { NumericFormatCustom } from '../Common/FormCustom';
+import LoadingButton from '@mui/lab/LoadingButton';
+
 import common from "../../../common"
 
 export default function NewCandidate() {
-    const [formData, updateFormData] = useState({
-        firstName: "Sejal",
-        lastName: "Khilari",
-        age: 20,
-        mobile: 9898989898,
-        alternativeMobile: 9021368015,
-        emailID: "sejalkhilari2002@gmail.com",
-        github: "Sejal-Khilari",
-        telegram: "sejalkhilari",
-        collegeName: "pict",
-        currentGraduation: "B.E.",
-        graduationYear: "2024",
-        resumeLink: "https://sumitkawale.github.io/portfolio/resume"
-    })
+    const [formData, updateFormData] = useState({})
 
     const [helperData, updateHelperData] = useState({})
 
+    const [loading, setLoading] = useState(false);
+    const [statusSuccess, updateStatusSuccess] = useState(false);
+    function handleSubmit() {
+        document.forms["createCandidateForm"].requestSubmit()
+    }
+
+    function resetForm() {
+        document.forms["createCandidateForm"].reset();
+        updateStatusSuccess(false)
+        setLoading(false)
+        updateFormData({})
+        console.log(formData)
+    }
 
     function updateForm(e) {
         updateFormData(prev => {
@@ -39,6 +43,7 @@ export default function NewCandidate() {
 
     function submitForm(e) {
         e.preventDefault();
+        setLoading(true);
 
         // FETCH REQUEST
         var myHeaders = new Headers();
@@ -63,8 +68,15 @@ export default function NewCandidate() {
                 const json = await response.json();
                 throw Error(json.message);
             })
-            .then(result => console.log(result))
-            .catch(error => console.log('error', error));
+            .then(result => {
+                console.log(result)
+                setLoading(false);
+                updateStatusSuccess(true);
+            })
+            .catch(error => {
+                console.log('error', error)
+                setLoading(false);
+            });
     }
 
     return <>
@@ -74,14 +86,13 @@ export default function NewCandidate() {
         <div className='headerGap'></div>
 
         <div className='bg-light'>
-            <form onSubmit={submitForm}>
+            <form name="createCandidateForm" onSubmit={submitForm} autoComplete="off">
                 <Box
                     sx={{
                         '& .MuiTextField-root': { m: 2 },
                         py: 4,
                         px: 1
                     }}
-                    autoComplete="off"
                 >
                     <div>
                         <TextField
@@ -110,6 +121,7 @@ export default function NewCandidate() {
                             }}
                             name="age"
                             onKeyUp={updateForm}
+                            value={formData.age || ""}
                             helperText={helperData.age || ""}
                         />
                         <TextField
@@ -133,6 +145,7 @@ export default function NewCandidate() {
                             variant="filled"
                             name="mobile"
                             onKeyUp={updateForm}
+                            value={formData.mobile || ""}
                             helperText={helperData.mobile || ""}
                         />
                         <TextField
@@ -143,6 +156,7 @@ export default function NewCandidate() {
                             }}
                             name="alternativeMobile"
                             onKeyUp={updateForm}
+                            value={formData.alternativeMobile || ""}
                             helperText={helperData.alternativeMobile || ""}
                         />
                         <TextField
@@ -196,7 +210,22 @@ export default function NewCandidate() {
                         />
 
                     </div>
-                    <Button type='submit' sx={{ m: 2 }} variant="contained">Create</Button>
+                    <LoadingButton
+                        onClick={statusSuccess ? null : handleSubmit}
+                        sx={{ m: 2 }}
+                        endIcon={statusSuccess ? <CheckIcon /> : <AddIcon />}
+                        loading={loading}
+                        loadingPosition="end"
+                        color={statusSuccess ? "success" : "primary"}
+                        variant="contained"
+                    >
+                        <span>{statusSuccess ? "CREATED" : "Create"}</span>
+                    </LoadingButton>
+                    {
+                        statusSuccess ?
+                            <Button type='reset' onClick={resetForm} sx={{ m: 2 }} variant="contained">Add New Candidate</Button>
+                            : ""
+                    }
                 </Box>
             </form>
         </div>

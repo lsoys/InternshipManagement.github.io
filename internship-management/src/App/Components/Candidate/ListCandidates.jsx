@@ -46,7 +46,7 @@ function createRows(rows) {
     return rows.map((value, index) => {
         return {
             sr: ++index,
-            name: value.firstName + " " + value.lastName,
+            name: value.fullName,
             email: value.emailID,
             createDate: value.createDate,
             operations:
@@ -113,19 +113,20 @@ export default function ListCandidates() {
 
     function getData(fetchFrom = fetchData, parameter = "") {
         fetchFrom(parameter).then(data => {
-            console.log(data)
             data = data.reverse()
             updateRows(createRows(data));
             updateData(data);
 
             updateSearchOptions(() => {
                 const names = data.map(data => {
-                    return { title: data.firstName + " " + data.lastName };
+                    return { title: data.fullName ?? "" };
                 })
                 const emails = data.map(data => {
-                    return { title: data.emailID };
+                    return { title: data.emailID ?? "" };
                 })
-                return [...names, ...emails]
+                // give Set a new array that contains only string title, destructure set in array and on that array, iterate through map and get values as objects
+                let uniqueNames = [...new Set(names.map(data => data.title))].map(title => { return { title } })
+                return [...uniqueNames, ...emails]
             });
 
         })

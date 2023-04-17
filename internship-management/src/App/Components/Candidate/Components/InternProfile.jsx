@@ -228,18 +228,23 @@ export default function InternProfile() {
                     </Box>
                 </div>
                 <div style={{ borderTop: "1px solid #dedede", marginTop: "1rem", padding: "1rem" }}>
-                    <h4>FEEDBACK</h4>
-                    <ul style={{ padding: "1rem" }} className="showFeedbackList">
-                        {
-                            candidate.feedback.map(question => {
-                                if (Number(question[1])) {
-                                    return <li><strong>{question[0]}</strong> <span>{repeat(question[1], v => "⭐")}</span></li>
-                                } else {
-                                    return <li className="text"><strong>{question[0]}:</strong> <span>{question[1]} </span></li>
+                    {candidate.feedback.length ?
+                        <>
+                            <h4>FEEDBACK</h4>
+                            <ul style={{ padding: "1rem" }} className="showFeedbackList">
+                                {
+                                    candidate.feedback.map((question, index) => {
+                                        if (Number(question[1])) {
+                                            return <li key={"feedbackQuestion" + index}><strong>{question[0]}</strong> <span>{repeat(question[1], v => "⭐")}</span></li>
+                                        } else {
+                                            return <li key={"feedbackQuestion" + index} className="text"><strong>{question[0]}:</strong> <span>{question[1]} </span></li>
+                                        }
+                                    })
                                 }
-                            })
-                        }
-                    </ul>
+                            </ul>
+                        </>
+                        : ""
+                    }
                 </div>
             </DialogContent>
 

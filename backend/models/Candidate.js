@@ -13,6 +13,10 @@ const CandidateSchema = new mongoose.Schema({
         trim: true,
         required: [true, "lastName is required field"]
     },
+    fullName: {
+        type: String,
+        trim: true,
+    },
     age: {
         type: Number,
         trim: true,
@@ -76,7 +80,11 @@ const CandidateSchema = new mongoose.Schema({
         type: Number,
         default: 0 // 1=upcoming, 2=ongoing, 3=completed
     }
+})
 
+CandidateSchema.pre("save", function (next) {
+    this.fullName = this.firstName + " " + this.lastName;
+    next();
 })
 
 module.exports = mongoose.model("candidate", CandidateSchema)// Candidate MODEL
