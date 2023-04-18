@@ -28,35 +28,35 @@ const columns = [
         label: 'Name',
         // minWidth: 170
     },
-    /*  {
-         id: 'startDate',
-         label: 'Start Date',
-         format: (value) => value.toLocaleString('en-US'),
-         // minWidth: 170
-     },
-     {
-         id: 'endDate',
-         label: 'End Date',
-         format: (value) => value.toLocaleString('en-US'),
-         // minWidth: 170
-     },
-     // {
-     //     id: 'paid',
-     //     label: 'Paid',
-     // },
-     {
-         id: 'paidAmount',
-         label: 'Paid Amount',
-         // minWidth: 170
-     },
-     // {
-     //     id: 'stipend',
-     //     label: 'Stipend',
-     // },
-     {
-         id: 'stipendAmount',
-         label: 'Stipend Amount',
-     }, */
+    /* {
+        id: 'startDate',
+        label: 'Start Date',
+        format: (value) => value.toLocaleString('en-US'),
+        // minWidth: 170
+    },
+    {
+        id: 'endDate',
+        label: 'End Date',
+        format: (value) => value.toLocaleString('en-US'),
+        // minWidth: 170
+    },
+    // {
+    //     id: 'paid',
+    //     label: 'Paid',
+    // },
+    {
+        id: 'paidAmount',
+        label: 'Paid Amount',
+        // minWidth: 170
+    },
+    // {
+    //     id: 'stipend',
+    //     label: 'Stipend',
+    // },
+    {
+        id: 'stipendAmount',
+        label: 'Stipend Amount',
+    }, */
     {
         id: 'operations',
         label: 'Operation',
