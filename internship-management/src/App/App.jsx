@@ -100,7 +100,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function MiniDrawer() {
 	const theme = useTheme();
 	const [open, setOpen] = React.useState(false);
-    const navigate = useNavigate();
+	const navigate = useNavigate();
 
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -133,9 +133,9 @@ export default function MiniDrawer() {
 				// console.log(data)
 			})
 			.catch(error => {
-				if (error.message == "token is not valid") {
-					navigate("/authentication/login");
-				}
+				// if (error.message == "token is not valid") {
+				navigate("/authentication/login");
+				// }
 			})
 	}, [])
 
