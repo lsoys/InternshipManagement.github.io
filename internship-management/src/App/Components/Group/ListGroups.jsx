@@ -12,6 +12,7 @@ import { Link, Outlet } from 'react-router-dom';
 import DataTable from '../Common/DataTable';
 
 import common from "../../../common"
+import fetchData from "../Common/fetchData";
 
 export const GroupContext = createContext();
 
@@ -67,68 +68,19 @@ function createRows(rows) {
     })
 }
 
-function fetchData() {
-    return new Promise((res, rej) => {
-        var myHeaders = new Headers();
-        const jwt = common.getCookieJWT();
-        myHeaders.append("Authentication", "bearer " + jwt);
-        myHeaders.append('Content-Type', 'application/json');
-
-        var requestOptions = {
-            method: 'GET',
-            headers: myHeaders,
-            redirect: 'follow',
-            credentials: 'include', // This is required to send cookies with the request
-        };
-
-        fetch("http://localhost:2324/group", requestOptions)
-            .then(response => response.json())
-            .then(result => {
-                // console.log(result);
-                res(result);
-            })
-            .catch(error => {
-                console.log('error', error)
-                rej(error);
-            });
-    })
-}
-
-function searchData(query) {
-    return new Promise((res, rej) => {
-        var myHeaders = new Headers();
-        const jwt = common.getCookieJWT();
-        myHeaders.append("Authentication", "bearer " + jwt);
-
-        var requestOptions = {
-            method: 'GET',
-            headers: myHeaders,
-            redirect: 'follow'
-        };
-
-        fetch("http://localhost:2324/candidate/intern/search?q=" + query, requestOptions)
-            .then(response => response.json())
-            .then(result => res(result))
-            .catch(error => {
-                console.log('error', error)
-                rej(error);
-            });
-    })
-}
-
 export default function Groups() {
     const [rows, updateRows] = useState([])
     const [data, updateData] = useState([])
     const [searchOptions, updateSearchOptions] = useState([])
 
-    function getData(fetchFrom = fetchData, parameter = "") {
-        fetchFrom(parameter).then(data => {
+    function getData(fetchFrom = () => fetchData("get", "http://localhost:2324/group"), reloadSearchOptions = true) {
+        fetchFrom().then(data => {
             console.log(data)
             data = data.reverse()
             updateRows(createRows(data));
             updateData(data);
 
-            updateSearchOptions(() => {
+            reloadSearchOptions && updateSearchOptions(() => {
                 const names = data.map(data => {
                     return { title: data.groupName };
                 })
@@ -144,6 +96,17 @@ export default function Groups() {
         getData();
     }, [])
 
+
+    function submitSearch(e) {
+        console.log("hoty kayi tri")
+        e.preventDefault();
+
+        const searchText = e.target.searchText.value;
+
+        getData(() => fetchData("get", "http://localhost:2324/group/search?q=" + searchText), false)
+    }
+
+
     return <>
         <PageTitle title="manage groups">
             <PeopleAltOutlinedIcon />
@@ -156,28 +119,31 @@ export default function Groups() {
                     Add New Group
                 </Button>
             </Link>
-            <span>
-                <Autocomplete
-                    freeSolo
-                    id="free-solo-2-demo"
-                    disableClearable
-                    options={searchOptions.map((option) => option.title)}
-                    renderInput={(params) => (
-                        <TextField
-                            {...params}
-                            size="small"
-                            label="Search"
-                            InputProps={{
-                                ...params.InputProps,
-                                type: 'search',
-                            }}
-                        />
-                    )}
-                />
-                <Button variant="contained" color='info' endIcon={<SearchIcon />}>
-                    Search
-                </Button>
-            </span>
+            <form onSubmit={submitSearch}>
+                <span>
+                    <Autocomplete
+                        freeSolo
+                        id="free-solo-2-demo"
+                        disableClearable
+                        options={searchOptions.map((option) => option.title)}
+                        renderInput={(params) => (
+                            <TextField
+                                {...params}
+                                size="small"
+                                label="Search"
+                                name="searchText"
+                                InputProps={{
+                                    ...params.InputProps,
+                                    type: 'search',
+                                }}
+                            />
+                        )}
+                    />
+                    <Button type="submit" variant="contained" color='info' endIcon={<SearchIcon />}>
+                        Search
+                    </Button>
+                </span>
+            </form>
         </div>
 
         <GroupContext.Provider value={{ data, getData }}>

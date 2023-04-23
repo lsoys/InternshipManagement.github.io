@@ -35,18 +35,18 @@ GroupSchema.pre('save', async function (next) {
 
     // If the group name already exists, update the name with an incremented number suffix    
     let matchingGroups = await Group.find({
-        groupName: new RegExp(`^${this.groupName}(?: \\(\\d+\\))?$`, 'i')
+        groupName: new RegExp(`^${this.groupName}(?:\\(\\d+\\))?$`, 'i')
     }).sort({ groupName: -1 }).limit(1)
 
     if (matchingGroups.length) {
         let lastGroup = matchingGroups[0];
 
         let lastGroupName = lastGroup.groupName;
-        let match = lastGroupName.match(/^(.+) \((\d+)\)$/);
+        let match = lastGroupName.match(/^(.+)\((\d+)\)$/);
         if (match) {
-            this.groupName = `${match[1]} (${parseInt(match[2]) + 1})`;
+            this.groupName = `${match[1]}(${parseInt(match[2]) + 1})`;
         } else {
-            this.groupName = `${lastGroupName} (1)`;
+            this.groupName = `${lastGroupName}(1)`;
         }
     }
     next();

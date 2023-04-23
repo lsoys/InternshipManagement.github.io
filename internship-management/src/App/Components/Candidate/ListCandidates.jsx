@@ -6,11 +6,11 @@ import Button from '@mui/material/Button';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import SearchIcon from '@mui/icons-material/Search';
 import Typography from '@mui/material/Typography';
-import { Link, Outlet } from 'react-router-dom';
+import { Link, Outlet, useNavigate } from 'react-router-dom';
 
 import PageTitle from '../Common/PageTitle';
 import DataTable from '../Common/DataTable';
-import common from "../../../common"
+import fetchData from "../Common/fetchData";
 
 export const CandidateContext = createContext();
 
@@ -57,67 +57,21 @@ function createRows(rows) {
     })
 }
 
-function fetchData() {
-    return new Promise((res, rej) => {
-        var myHeaders = new Headers();
-        const jwt = common.getCookieJWT();
-        myHeaders.append("Authentication", "bearer " + jwt);
-        myHeaders.append('Content-Type', 'application/json');
-
-        var requestOptions = {
-            method: 'GET',
-            headers: myHeaders,
-            redirect: 'follow',
-            credentials: 'include', // This is required to send cookies with the request
-        };
-
-        fetch("http://localhost:2324/candidate/", requestOptions)
-            .then(response => response.json())
-            .then(result => {
-                // console.log(result);
-                res(result);
-            })
-            .catch(error => {
-                console.log('error', error)
-                rej(error);
-            });
-    })
-}
-
-function searchData(query) {
-    return new Promise((res, rej) => {
-        var myHeaders = new Headers();
-        const jwt = common.getCookieJWT();
-        myHeaders.append("Authentication", "bearer " + jwt);
-
-        var requestOptions = {
-            method: 'GET',
-            headers: myHeaders,
-            redirect: 'follow'
-        };
-
-        fetch("http://localhost:2324/candidate/search?q=" + query, requestOptions)
-            .then(response => response.json())
-            .then(result => res(result))
-            .catch(error => {
-                console.log('error', error)
-                rej(error);
-            });
-    })
-}
-
 export default function ListCandidates() {
     const [rows, updateRows] = useState([])
     const [data, updateData] = useState([])
     const [searchOptions, updateSearchOptions] = useState([])
 
-    function getData(fetchFrom = fetchData, parameter = "") {
-        fetchFrom(parameter).then(data => {
+    const navigate = useNavigate();
+
+    function getData(fetchFrom = () => fetchData("get", "http://localhost:2324/candidate/"), reloadSearchOptions = true) {
+        fetchFrom().then(data => {
+            console.log(data)
             data = data.reverse()
             updateRows(createRows(data));
             updateData(data);
 
-            updateSearchOptions(() => {
+            reloadSearchOptions && updateSearchOptions(() => {
                 const names = data.map(data => {
                     return { title: data.fullName ?? "" };
                 })
@@ -130,20 +84,24 @@ export default function ListCandidates() {
             });
 
         })
-            .catch(error => console.log(error))
+            .catch(error => {
+                if (error.message == "token is not valid") {
+                    navigate("/authentication/login");
+                }
+            })
     }
-
-    useEffect(() => {
-        getData();
-    }, [])
 
     function submitSearch(e) {
         e.preventDefault();
 
         const searchText = e.target.searchText.value;
 
-        getData(searchData, searchText)
+        getData(() => fetchData("get", "http://localhost:2324/candidate/search?q=" + searchText), false)
     }
+
+    useEffect(() => {
+        getData();
+    }, [])
 
 
     return <>

@@ -1,12 +1,11 @@
 import { useContext } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useParams, useNavigate } from "react-router-dom";
 import Button from '@mui/material/Button';
 import DialogContent from '@mui/material/DialogContent';
 import DialogActions from '@mui/material/DialogActions';
 import Box from '@mui/material/Box';
 import PersonIcon from '@mui/icons-material/Person';
 import TextField from '@mui/material/TextField';
-import { useNavigate } from 'react-router-dom';
 import PopUp from "../../Common/PopUp";
 
 import { CandidateContext } from '../ListCandidates';

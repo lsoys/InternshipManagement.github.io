@@ -5,6 +5,7 @@ const authMiddleware = require("../middleware/authentication")
 
 // GET
 router.get("/", authMiddleware, controller.getGroups);
+router.get("/search", authMiddleware, controller.searchGroups)
 
 // POST
 router.post("/", authMiddleware, controller.addGroup);

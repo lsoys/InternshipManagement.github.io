@@ -10,7 +10,7 @@ import Button from '@mui/material/Button';
 import PageTitle from '../Common/PageTitle';
 import DataTable from '../Common/DataTable';
 
-import common from "../../../common"
+import fetchData from "../Common/fetchData"
 
 export const InternContext = createContext();
 
@@ -95,68 +95,19 @@ function createRows(rows) {
     })
 }
 
-function fetchData() {
-    return new Promise((res, rej) => {
-        var myHeaders = new Headers();
-        const jwt = common.getCookieJWT();
-        myHeaders.append("Authentication", "bearer " + jwt);
-        myHeaders.append('Content-Type', 'application/json');
-
-        var requestOptions = {
-            method: 'GET',
-            headers: myHeaders,
-            redirect: 'follow',
-            credentials: 'include', // This is required to send cookies with the request
-        };
-
-        fetch("http://localhost:2324/candidate/intern", requestOptions)
-            .then(response => response.json())
-            .then(result => {
-                // console.log(result);
-                res(result);
-            })
-            .catch(error => {
-                console.log('error', error)
-                rej(error);
-            });
-    })
-}
-
-function searchData(query) {
-    return new Promise((res, rej) => {
-        var myHeaders = new Headers();
-        const jwt = common.getCookieJWT();
-        myHeaders.append("Authentication", "bearer " + jwt);
-
-        var requestOptions = {
-            method: 'GET',
-            headers: myHeaders,
-            redirect: 'follow'
-        };
-
-        fetch("http://localhost:2324/candidate/intern/search?q=" + query, requestOptions)
-            .then(response => response.json())
-            .then(result => res(result))
-            .catch(error => {
-                console.log('error', error)
-                rej(error);
-            });
-    })
-}
-
 export default function ListInterns() {
     const [rows, updateRows] = useState([])
     const [data, updateData] = useState([])
     const [searchOptions, updateSearchOptions] = useState([])
 
-    function getData(fetchFrom = fetchData, parameter = "") {
-        fetchFrom(parameter).then(data => {
+    function getData(fetchFrom = () => fetchData("get", "http://localhost:2324/candidate/intern"), reloadSearchOptions = true) {
+        fetchFrom().then(data => {
             console.log(data)
             data = data.reverse()
             updateRows(createRows(data));
             updateData(data);
 
-            updateSearchOptions(() => {
+            reloadSearchOptions && updateSearchOptions(() => {
                 const names = data.map(data => {
                     return { title: data.fullName ?? "" };
                 })
@@ -181,7 +132,7 @@ export default function ListInterns() {
 
         const searchText = e.target.searchText.value;
 
-        getData(searchData, searchText)
+        getData(() => fetchData("get", "http://localhost:2324/candidate/intern/search?q=" + searchText), false)
     }
 
 

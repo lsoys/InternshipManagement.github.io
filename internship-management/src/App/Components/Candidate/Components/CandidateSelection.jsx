@@ -73,6 +73,7 @@ export default function CandidateSelection(props) {
 
     const [internshipType, updateInternshipType] = useState('free');
     const [internshipAmount, updateInternshipAmount] = useState({ amount: 0, take: false });
+    
     const handleInternshipType = (event) => {
         updateInternshipType(event.target.value);
         let take = false;
