@@ -74,7 +74,7 @@ export default function Groups() {
     const [searchOptions, updateSearchOptions] = useState([])
 
     function getData(fetchFrom = () => fetchData("get", "http://localhost:2324/group"), reloadSearchOptions = true) {
-        fetchFrom().then(data => {
+        fetchFrom().then(data => { 
             console.log(data)
             data = data.reverse()
             updateRows(createRows(data));
