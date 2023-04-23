@@ -120,7 +120,11 @@ export default function ListInterns() {
             });
 
         })
-            .catch(error => console.log(error))
+            .catch(error => {
+                if (error.message == "token is not valid") {
+                    navigate("/authentication/login");
+                }
+            })
     }
 
     useEffect(() => {

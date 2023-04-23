@@ -76,6 +76,10 @@ export default function NewCandidate() {
             .catch(error => {
                 console.log('error', error)
                 setLoading(false);
+
+                if (error.message == "token is not valid") {
+                    navigate("/authentication/login");
+                }
             });
     }
 

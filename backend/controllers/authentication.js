@@ -32,8 +32,11 @@ const controller = {
         } catch (error) {
             return res.status(404).json({ message: "problem to get user details", error })
         }
-
     },
+
+    async checkVerify(req, res, next) {
+        res.status(200).json({ message: "OK" })
+    }
     // signup(req, res, next) {
     //     res.send("signup")
     // }

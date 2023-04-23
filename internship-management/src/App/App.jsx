@@ -24,8 +24,10 @@ import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
+
 import "./App.css";
+import fetchData from './Components/Common/fetchData';
 
 const drawerWidth = 260;
 
@@ -98,6 +100,7 @@ const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' 
 export default function MiniDrawer() {
 	const theme = useTheme();
 	const [open, setOpen] = React.useState(false);
+    const navigate = useNavigate();
 
 	const handleDrawerOpen = () => {
 		setOpen(true);
@@ -124,6 +127,16 @@ export default function MiniDrawer() {
 
 	React.useEffect(() => {
 		localStorage.getItem("driver-state") && setOpen(true);
+
+		fetchData("POST", "http://localhost:2324/authentication/verify")
+			.then(data => {
+				// console.log(data)
+			})
+			.catch(error => {
+				if (error.message == "token is not valid") {
+					navigate("/authentication/login");
+				}
+			})
 	}, [])
 
 	return (

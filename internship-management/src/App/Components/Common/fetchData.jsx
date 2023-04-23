@@ -15,7 +15,13 @@ export default function fetchData(method, api) {
         };
 
         fetch(api, requestOptions)
-            .then(response => response.json())
+            .then(async response => {
+                if (response.ok) {
+                    return response.json()
+                }
+                const data = await response.json();
+                throw new Error(data.message)
+            })
             .then(result => {
                 // console.log(result);
                 res(result);
