@@ -66,7 +66,7 @@ function createRows(rows) {
                 </>
         }
     })
-}
+} 
 
 export default function Groups() {
     const [rows, updateRows] = useState([])
