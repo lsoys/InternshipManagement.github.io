@@ -17,15 +17,16 @@ const controller = {
         if (internID) {
             const feedbackExistence = await Feedback.findOne({ internID })
             if (feedbackExistence) { // present, update it
-                const newFeedback = await Feedback.updateOne(
+                const newFeedback = await Feedback.findOneAndUpdate(
                     { internID }, // Filter for the document to update
-                    { $push: { feedback } } // Data to append
+                    { $push: { feedback } }, // Data to append
+                    { new: true }
                 )
                 return res.json(newFeedback);
 
             } else {  // not present, create it
                 const newFeedback = Feedback.create({ internID, feedback })
-                return res.send(201).json(newFeedback);
+                return res.status(201).json(newFeedback);
             }
         } else {
             return res.status(404).json({ message: "internID and feedback are required field" })

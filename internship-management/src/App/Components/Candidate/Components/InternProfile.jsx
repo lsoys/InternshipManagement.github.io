@@ -52,7 +52,7 @@ export default function InternProfile() {
                         <div>
                             <TextField id="standard-basic" label="Name" variant="standard"
                                 defaultValue={
-                                    candidate.firstName + " " + candidate.lastName
+                                    candidate.fullName
                                 }
                                 InputLabelProps={{
                                     shrink: true,

@@ -1,0 +1,23 @@
+.feedbackList {
+    list-style-type: none;
+}
+
+.feedbackList li {
+    border       : 2px solid #dedede;
+    border-radius: 5px;
+    padding      : 1rem;
+    margin       : 1rem 0;
+
+    background-color: #f9f9ff;
+}
+
+.feedbackList li pre {
+    overflow      : auto;
+    max-height    : 12rem;
+    padding-bottom: 1rem;
+}
+
+.feedbackList li .feedbackFooter {
+    text-align: right;
+    margin-top: .5rem;
+}

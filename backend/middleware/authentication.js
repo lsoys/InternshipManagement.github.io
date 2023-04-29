@@ -3,7 +3,7 @@ const jwt = require('jsonwebtoken')
 
 const authenticate = async (req, res, next) => {
     try {
-        const token = req.headers.authentication.split(" ")[1];
+        const token = req.headers.authentication.split(" ").reverse()[0];
         if (!token) {
             // res.redirect('/login');
             // console.log("invalid token")
@@ -21,8 +21,12 @@ const authenticate = async (req, res, next) => {
         });
         // req.user=await User.findById(verify.id);
     } catch (error) {
-        console.log("error at authentication.js: ", error);
-        res.status(404).send(error)
+        if (error instanceof TypeError) {
+            res.status(404).send({ message: "please provide Authentication:'bearer token' in headers" })
+        } else {
+            console.log("error at authentication.js: ");
+            res.status(502).send({ message: "unexpected error at server" })
+        }
     }
 }
 
