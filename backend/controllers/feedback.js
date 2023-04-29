@@ -4,8 +4,9 @@ const controller = {
     async getFeedback(req, res, next) {
         const { internID } = req.query;
         if (internID) {
-            const feedbacks = await Feedback.find({ internID })
-            return res.status(200).send({ feedbacks })
+            let feedbacks = await Feedback.findOne({ internID })
+            feedbacks ||= { message: "no feedbacks" };
+            return res.status(200).send(feedbacks)
         } else {
             return res.status(404).json({ message: "internID is required field" })
         }
@@ -19,13 +20,12 @@ const controller = {
             if (feedbackExistence) { // present, update it
                 const newFeedback = await Feedback.findOneAndUpdate(
                     { internID }, // Filter for the document to update
-                    { $push: { feedback } }, // Data to append
+                    { $push: { feedbacks: { feedback } } }, // Data to append
                     { new: true }
                 )
                 return res.json(newFeedback);
-
             } else {  // not present, create it
-                const newFeedback = Feedback.create({ internID, feedback })
+                const newFeedback = await Feedback.create({ internID, feedbacks: [{ feedback }] })
                 return res.status(201).json(newFeedback);
             }
         } else {

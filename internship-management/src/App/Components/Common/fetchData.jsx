@@ -1,6 +1,6 @@
 import common from "../../../common"
 
-export default function fetchData(method, api) {
+export default function fetchData(method, api, body) {
     return new Promise((res, rej) => {
         var myHeaders = new Headers();
         const jwt = common.getCookieJWT();
@@ -10,6 +10,7 @@ export default function fetchData(method, api) {
         var requestOptions = {
             method: String(method).toUpperCase(),
             headers: myHeaders,
+            body: JSON.stringify(body),
             redirect: 'follow',
             credentials: 'include', // This is required to send cookies with the request
         };
