@@ -13,10 +13,16 @@ const WorkSchema = new mongoose.Schema({
         type: Number, // 1=completed, 0=pending
         default: 0,
     },
-    assignTo: {
-        type: Array,
-        required: true,
-    },
+    assignTo: [{
+        _id: {
+            type: String,
+            required: true
+        },
+        type: {
+            type: String,
+            required: true
+        }
+    }],
     deadline: {
         type: Date,
         required: true,

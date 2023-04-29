@@ -9,7 +9,7 @@ import ListCandidates from './App/Components/Candidate/ListCandidates';
 import NewCandidate from './App/Components/Candidate/NewCandidate';
 import ListInterns from './App/Components/Candidate/ListInterns';
 import Groups from './App/Components/Group/ListGroups';
-import Works from './App/Components/Work/Works';
+import ListWorks from './App/Components/Work/ListWork';
 import Feedbacks from './App/Components/Feedback/ListFeedbacks';
 import CandidateInformation from './App/Components/Candidate/Components/CandidateInformation';
 import CandidateSelection from './App/Components/Candidate/Components/CandidateSelection';
@@ -17,6 +17,7 @@ import NewGroup from './App/Components/Group/NewGroup';
 import Login from './Authentication/Login';
 import InternProfile from './App/Components/Candidate/Components/InternProfile';
 import InternFeedback from './App/Components/Feedback/Components/InternFeedback';
+import NewWork from './App/Components/Work/newWork';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -41,7 +42,9 @@ root.render(
 					<Route path="add/" element={<NewGroup />} />
 				</Route>
 
-				<Route path="works" element={<Works />} />
+				<Route path="works/add/" element={<NewWork />} />
+				<Route path="works/" element={<ListWorks />} >
+				</Route>
 
 				<Route path="feedbacks/" element={<Feedbacks />}>
 					<Route path=':candidateID' element={<InternFeedback />} />

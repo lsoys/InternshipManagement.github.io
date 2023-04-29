@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
@@ -212,8 +212,8 @@ export default function NewCandidate() {
                             onKeyUp={updateForm}
                             helperText={helperData.graduationYear || ""}
                         />
-
                     </div>
+
                     <LoadingButton
                         onClick={statusSuccess ? null : handleSubmit}
                         sx={{ m: 2 }}

@@ -106,7 +106,7 @@ function a11yProps(index) {
     };
 }
 
-export default function Works() {
+export default function ListWorks() {
     const [value, setValue] = useState(0);
 
     const [rows, updateRows] = useState([])

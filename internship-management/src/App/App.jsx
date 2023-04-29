@@ -21,6 +21,7 @@ import ListItemIcon from '@mui/material/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText';
 import ListAltOutlinedIcon from '@mui/icons-material/ListAltOutlined';
 import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
+import WorkOutlineIcon from '@mui/icons-material/WorkOutline';
 import LogoutIcon from '@mui/icons-material/Logout';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
@@ -121,6 +122,9 @@ export default function MiniDrawer() {
 			},
 			info: {
 				main: "rgb(113,116,255)"
+			},
+			light:{
+				main:"#e6e6e6"
 			}
 		},
 	})
@@ -243,6 +247,53 @@ export default function MiniDrawer() {
 					<Divider />
 					<List>
 						<ListItem className={"navLink"} disablePadding sx={{ display: 'block' }}>
+							<NavLink to="/works/add">
+								<ListItemButton
+									sx={{
+										minHeight: 48,
+										justifyContent: open ? 'initial' : 'center',
+										px: 2.5,
+									}}
+								>
+									<ListItemIcon
+										sx={{
+											minWidth: 0,
+											mr: open ? 3 : 'auto',
+											justifyContent: 'center',
+										}}
+									>
+										<WorkOutlineIcon />
+									</ListItemIcon>
+									<ListItemText primary={"Assign Work"} sx={{ opacity: open ? 1 : 0 }} />
+								</ListItemButton>
+							</ NavLink>
+						</ListItem>
+						<ListItem className={"navLink"} disablePadding sx={{ display: 'block' }}>
+							<NavLink to="/works/">
+								<ListItemButton
+									sx={{
+										minHeight: 48,
+										justifyContent: open ? 'initial' : 'center',
+										px: 2.5,
+									}}
+								>
+									<ListItemIcon
+										sx={{
+											minWidth: 0,
+											mr: open ? 3 : 'auto',
+											justifyContent: 'center',
+										}}
+									>
+										<EngineeringOutlinedIcon />
+									</ListItemIcon>
+									<ListItemText primary={"List Of Works"} sx={{ opacity: open ? 1 : 0 }} />
+								</ListItemButton>
+							</ NavLink>
+						</ListItem>
+					</List>
+					<Divider />
+					<List>
+						<ListItem className={"navLink"} disablePadding sx={{ display: 'block' }}>
 							<NavLink to="/groups">
 								<ListItemButton
 									sx={{
@@ -261,28 +312,6 @@ export default function MiniDrawer() {
 										<PeopleAltOutlinedIcon />
 									</ListItemIcon>
 									<ListItemText primary={"Manage Groups"} sx={{ opacity: open ? 1 : 0 }} />
-								</ListItemButton>
-							</ NavLink>
-						</ListItem>
-						<ListItem className={"navLink"} disablePadding sx={{ display: 'block' }}>
-							<NavLink to="/works">
-								<ListItemButton
-									sx={{
-										minHeight: 48,
-										justifyContent: open ? 'initial' : 'center',
-										px: 2.5,
-									}}
-								>
-									<ListItemIcon
-										sx={{
-											minWidth: 0,
-											mr: open ? 3 : 'auto',
-											justifyContent: 'center',
-										}}
-									>
-										<EngineeringOutlinedIcon />
-									</ListItemIcon>
-									<ListItemText primary={"Assign Work"} sx={{ opacity: open ? 1 : 0 }} />
 								</ListItemButton>
 							</ NavLink>
 						</ListItem>
