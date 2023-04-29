@@ -15,7 +15,7 @@ const GroupSchema = new mongoose.Schema({
     },
     createDate: {
         type: String,
-        default: new Date().toLocaleString(),
+        default: () => new Date().toLocaleString(),
     },
 })
 

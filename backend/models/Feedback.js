@@ -2,7 +2,7 @@ const mongoose = require("mongoose")
 
 const FeedbackSchema = new mongoose.Schema({
     internID: {
-        type:String,
+        type: String,
         trim: true,
         required: [true, "internID is required field"]
     },
@@ -10,7 +10,7 @@ const FeedbackSchema = new mongoose.Schema({
         feedback: String,
         createDate: {
             type: String,
-            default: new Date().toLocaleString(),
+            default: () => new Date().toLocaleString(),
         }
     }]
 })
