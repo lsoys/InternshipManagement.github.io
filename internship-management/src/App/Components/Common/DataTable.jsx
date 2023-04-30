@@ -7,7 +7,8 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
-import { Box } from "@mui/material";
+import CircularProgress from '@mui/material/CircularProgress';
+import Box from '@mui/material/Box';
 
 export default function DataTable(props) {
     const rows = props.rows;
@@ -50,26 +51,38 @@ export default function DataTable(props) {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {rows
-                            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                            .map((row, i) => {
-                                return (
-                                    <TableRow hover role="checkbox" tabIndex={-1} key={row.code ?? i + "data"}>
-                                        {columns.map((column) => {
-                                            const value = row[column.id];
-                                            return (
-                                                <TableCell key={column.id + "colum"} align={column.align}>
-                                                    {column.format && typeof value === 'number'
-                                                        ? column.format(value)
-                                                        : value}
-                                                </TableCell>
-                                            );
-                                        })}
-                                    </TableRow>
-                                );
-                            })}
+                        {
+                            rows
+                                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                                .map((row, i) => {
+                                    return (
+                                        <TableRow hover role="checkbox" tabIndex={-1} key={row.code ?? i + "data"}>
+                                            {columns.map((column) => {
+                                                const value = row[column.id];
+                                                return (
+                                                    <TableCell key={column.id + "colum"} align={column.align}>
+                                                        {column.format && typeof value === 'number'
+                                                            ? column.format(value)
+                                                            : value}
+                                                    </TableCell>
+                                                );
+                                            })}
+                                        </TableRow>
+                                    );
+                                })
+                        }
                     </TableBody>
                 </Table>
+                {
+                    props.loading &&
+                    <h3 className="textCenter p1 textLight"><CircularProgress /></h3>
+                }
+                {
+                    !props.loading && rows.length == 0 &&
+                    <>
+                        <h3 className="textCenter p1 textLight">No data Available</h3>
+                    </>
+                }
             </TableContainer>
             <TablePagination
                 rowsPerPageOptions={[10, 25, 100]}

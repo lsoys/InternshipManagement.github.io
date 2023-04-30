@@ -73,6 +73,8 @@ export default function Groups() {
     const [data, updateData] = useState([])
     const [searchOptions, updateSearchOptions] = useState([])
 
+    const [loadingStatus, updateLoadingStatus] = useState(true);
+
     function getData(fetchFrom = () => fetchData("get", "http://localhost:2324/group"), reloadSearchOptions = true) {
         fetchFrom().then(data => {
             console.log(data)
@@ -93,6 +95,8 @@ export default function Groups() {
                 if (error.message == "token is not valid") {
                     navigate("/authentication/login");
                 }
+            }).finally(() => {
+                updateLoadingStatus(false);
             })
     }
 
@@ -155,7 +159,7 @@ export default function Groups() {
         </GroupContext.Provider>
 
         <div>
-            <DataTable rows={rows} cols={columns} />
+            <DataTable loading={loadingStatus} rows={rows} cols={columns} />
         </div>
     </>
 }

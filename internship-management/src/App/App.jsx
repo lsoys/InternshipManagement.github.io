@@ -123,8 +123,11 @@ export default function MiniDrawer() {
 			info: {
 				main: "rgb(113,116,255)"
 			},
-			light:{
-				main:"#e6e6e6"
+			light: {
+				main: "#e6e6e6"
+			},
+			white: {
+				main: "#ffffff"
 			}
 		},
 	})

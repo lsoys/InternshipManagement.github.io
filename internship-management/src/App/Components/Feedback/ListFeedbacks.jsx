@@ -93,6 +93,8 @@ export default function Feedbacks() {
     const [data, updateData] = useState([])
     const [searchOptions, updateSearchOptions] = useState([])
 
+    const [loadingStatus, updateLoadingStatus] = useState(true);
+
     const navigate = useNavigate();
 
     function getData(fetchFrom = () => fetchData("get", "http://localhost:2324/candidate/intern"), reloadSearchOptions = true) {
@@ -119,6 +121,8 @@ export default function Feedbacks() {
                 if (error.message == "token is not valid") {
                     navigate("/authentication/login");
                 }
+            }).finally(() => {
+                updateLoadingStatus(false);
             })
     }
 
@@ -171,7 +175,7 @@ export default function Feedbacks() {
         <div className='headerGap'></div>
 
         <div style={{ width: "70%", margin: "0 auto" }}>
-            <DataTable rows={rows} cols={columns} />
+            <DataTable loading={loadingStatus} rows={rows} cols={columns} />
         </div>
 
         <InternContext.Provider value={data}>

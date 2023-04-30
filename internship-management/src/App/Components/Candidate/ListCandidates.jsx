@@ -62,6 +62,8 @@ export default function ListCandidates() {
     const [data, updateData] = useState([])
     const [searchOptions, updateSearchOptions] = useState([])
 
+    const [loadingStatus, updateLoadingStatus] = useState(true);
+
     const navigate = useNavigate();
 
     function getData(fetchFrom = () => fetchData("get", "http://localhost:2324/candidate/"), reloadSearchOptions = true) {
@@ -88,6 +90,8 @@ export default function ListCandidates() {
                 if (error.message == "token is not valid") {
                     navigate("/authentication/login");
                 }
+            }).finally(() => {
+                updateLoadingStatus(false);
             })
     }
 
@@ -147,7 +151,7 @@ export default function ListCandidates() {
         </CandidateContext.Provider>
 
         <div>
-            <DataTable rows={rows} cols={columns} />
+            <DataTable loading={loadingStatus} rows={rows} cols={columns} />
         </div>
     </>
 

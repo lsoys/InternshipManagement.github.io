@@ -65,7 +65,7 @@ function createRows(rows) {
             priority: value.priority,
             status: value.status,
             assignedOn: value.createDate,
-            deadline: new Date(value.deadline).toLocaleString(),
+            deadline: new Date(value.deadline).toLocaleDateString(),
             operations:
                 <>
                     <Link style={{ padding: ".1rem", display: "inline-block" }} to={"/feedbacks/"} >{/* + value._id */}
@@ -110,9 +110,9 @@ function a11yProps(index) {
 }
 
 function divideDataToTabs(oldData, data) {
-    const pending = [];
-    const pastDue = [];
-    const completed = [];
+    let pending = [];
+    let pastDue = [];
+    let completed = [];
 
     const today = new Date();
 
@@ -128,6 +128,7 @@ function divideDataToTabs(oldData, data) {
             }
         }
     })
+    pending.sort((a, b) => new Date(a.deadline) - new Date(b.deadline))
 
     return { pending: createRows(pending), pastDue: createRows(pastDue), completed: createRows(completed) }
 }
@@ -138,6 +139,8 @@ export default function ListWorks() {
     const [rows, updateRows] = useState({})
     const [data, updateData] = useState([])
     const [searchOptions, updateSearchOptions] = useState([])
+
+    const [loadingStatus, updateLoadingStatus] = useState(true);
 
     const handleChange = (event, newValue) => {
         updateTabIndex(newValue);
@@ -151,15 +154,12 @@ export default function ListWorks() {
             updateData(data);
 
             reloadSearchOptions && updateSearchOptions(() => {
-                const names = data.map(data => {
-                    return { title: data.fullName ?? "" };
-                })
-                const emails = data.map(data => {
-                    return { title: data.emailID ?? "" };
+                const titles = data.map(data => {
+                    return { title: data.title ?? "" };
                 })
                 // give Set a new array that contains only string title, destructure set in array and on that array, iterate through map and get values as objects
-                let uniqueNames = [...new Set(names.map(data => data.title))].map(title => { return { title } })
-                return [...uniqueNames, ...emails]
+                let uniqueNames = [...new Set(titles.map(data => data.title))].map(title => { return { title } })
+                return [...uniqueNames]
             });
 
         })
@@ -167,6 +167,8 @@ export default function ListWorks() {
                 if (error.message == "token is not valid") {
                     navigate("/authentication/login");
                 }
+            }).finally(() => {
+                updateLoadingStatus(false);
             })
     }
 
@@ -219,13 +221,13 @@ export default function ListWorks() {
                 </Tabs>
             </Box>
             <TabPanel value={tabIndex} index={0}>
-                <DataTable rows={rows.pending || []} cols={columns} />
+                <DataTable loading={loadingStatus} rows={rows.pending || []} cols={columns} />
             </TabPanel>
             <TabPanel value={tabIndex} index={1}>
-                <DataTable rows={rows.pastDue || []} cols={columns} />
+                <DataTable loading={loadingStatus} rows={rows.pastDue || []} cols={columns} />
             </TabPanel>
             <TabPanel value={tabIndex} index={2}>
-                <DataTable rows={rows.completed || []} cols={columns} />
+                <DataTable loading={loadingStatus} rows={rows.completed || []} cols={columns} />
             </TabPanel>
         </Box>
     </>

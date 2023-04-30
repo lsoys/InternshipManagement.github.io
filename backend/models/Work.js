@@ -24,7 +24,7 @@ const WorkSchema = new mongoose.Schema({
         }
     }],
     deadline: {
-        type: Date,
+        type: String,
         required: true,
     },
     description: {

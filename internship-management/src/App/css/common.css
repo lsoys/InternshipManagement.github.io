@@ -115,4 +115,16 @@ a {
     border-radius: 5px;
 }
 
+.textCenter {
+    text-align: center;
+}
+
+.p1 {
+    padding: 1rem;
+}
+
+.textLight {
+    color: #777777;
+}
+
 /* ================= COMMON ================= */
