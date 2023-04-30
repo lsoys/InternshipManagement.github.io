@@ -15,7 +15,7 @@ const WorkSchema = new mongoose.Schema({
     },
     assignTo: [{
         _id: {
-            type: String,
+            type: mongoose.ObjectId,
             required: true
         },
         type: {
