@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken")
 
 async function createToken(id) {
     const token = await jwt.sign({ id }, process.env.SECRET_KEY, {
-        expiresIn: process.env.JWT_EXPIRE + "d"
+        expiresIn: (Number.parseInt(process.env.JWT_EXPIRE) || 2) + "d"
     })
     return token;
 }
@@ -20,12 +20,13 @@ const controller = {
                 const token = await createToken(user._id);
 
                 res.cookie("jwt", token, {
-                    maxAge: 1000 * 60 * 60 * 24 * process.env.JWT_EXPIRE,
+                    maxAge: 1000 * 60 * 60 * 24 * (Number.parseInt(process.env.JWT_EXPIRE) || 2), // default 2 days
                 })
 
                 // console.log(token);
                 return res.status(200).send(token);
-            } catch {
+            } catch (error) {
+                console.log(error)
                 return res.status(404).json({ message: "problem to create tokens" })
             }
 
