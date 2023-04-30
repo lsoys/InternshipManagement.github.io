@@ -7,6 +7,6 @@ export default function Home() {
     }, [])
     return <>
         <h1>HOME</h1>
-        <NavLink id="home" to="/works"></NavLink>
+        <NavLink id="home" to="/works/"></NavLink>
     </>
 }
