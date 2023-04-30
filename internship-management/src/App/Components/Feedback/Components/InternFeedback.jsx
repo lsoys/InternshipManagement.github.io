@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import Button from '@mui/material/Button';
 import PopUp from "../../Common/PopUp";
@@ -20,26 +20,15 @@ She is the best one in this earth!! she is pretty, cleaver, polite, free, open m
 she is just beautiful!`
 
 export default function InternFeedback() {
-    const listCandidates = useContext(InternContext);
-
     const candidateID = useParams().candidateID
 
+    const [feedbacks, updateFeedbacks] = useState([]);
+    const [candidate, updateCandidate] = useState({});
     const navigate = useNavigate();
 
     const handleClose = () => {
         navigate("/feedbacks");
     };
-
-    let candidate = listCandidates.find(candidate => candidate._id === candidateID)
-    if (!candidate) {
-        return;
-    }
-
-    if (!listCandidates.length) {
-        return;
-    }
-
-    const [feedbacks, updateFeedbacks] = useState([]);
 
     function getData(fetchFrom = () => fetchData("get", "http://localhost:2324/feedback?internID=" + candidateID), reloadSearchOptions = true) {
         fetchFrom().then(data => {
@@ -47,15 +36,26 @@ export default function InternFeedback() {
             updateFeedbacks(data);
         })
             .catch(error => {
+                console.log(error);
                 if (error.message == "token is not valid") {
                     navigate("/authentication/login");
                 }
             })
     }
 
+    const listCandidates = useContext(InternContext);
     useEffect(() => {
+        if (!listCandidates?.length) {
+            return;
+        }
+
+        updateCandidate(listCandidates.find(candidate => candidate._id === candidateID))
+        if (!candidate) {
+            return;
+        }
+
         getData()
-    }, [])
+    }, [listCandidates])
 
     function addFeedbackSubmit(event) {
         event.preventDefault();

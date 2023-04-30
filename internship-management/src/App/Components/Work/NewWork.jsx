@@ -15,7 +15,6 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-import { NumericFormatCustom } from '../Common/FormCustom';
 import PageTitle from '../Common/PageTitle';
 import common from "../../../common"
 
@@ -274,7 +273,7 @@ export default function NewWork() {
                             }} />
 
                         <FormControl sx={{ minWidth: 150, m: 2 }}>
-                            <InputLabel id="demo-simple-select-label">Age</InputLabel>
+                            <InputLabel id="demo-simple-select-label">Priority</InputLabel>
                             <Select
                                 labelId="demo-simple-select-label"
                                 id="demo-simple-select"

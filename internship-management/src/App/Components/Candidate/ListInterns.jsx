@@ -87,7 +87,7 @@ function createRows(rows) {
                     <Link style={{ padding: ".1rem", display: "inline-block" }} to={"/works/"}>{/* + value._id */}
                         <Button size="small" variant="contained" style={{ textTransform: "capitalize" }}><Typography noWrap>Assign Work</Typography></Button>
                     </Link>
-                    <Link style={{ padding: ".1rem", display: "inline-block" }} to={"/feedbacks/"} >{/* + value._id */}
+                    <Link style={{ padding: ".1rem", display: "inline-block" }} to={"/feedbacks/" + value._id} >{/* + value._id */}
                         <Button size="small" variant="contained" style={{ textTransform: "capitalize" }}><Typography noWrap>Feedback</Typography></Button>
                     </Link>
                 </>

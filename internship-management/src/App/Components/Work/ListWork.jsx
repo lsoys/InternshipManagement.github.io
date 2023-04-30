@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 import EngineeringOutlinedIcon from '@mui/icons-material/EngineeringOutlined';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import SearchIcon from '@mui/icons-material/Search';
 import Tabs from '@mui/material/Tabs';
@@ -17,8 +17,11 @@ import PageTitle from '../Common/PageTitle';
 import "../../css/work.css"
 
 import DataTable from '../Common/DataTable';
+import fetchData from "../Common/fetchData"
 
 import data from "../../../TestData/work.json"
+
+export const WorkContext = createContext();
 
 const columns = [
     {
@@ -35,10 +38,10 @@ const columns = [
         id: 'priority',
         label: 'Priority',
     },
-    {
-        id: 'status',
-        label: 'Status',
-    },
+    // {
+    //     id: 'status',
+    //     label: 'Status',
+    // },
     {
         id: 'assignedOn',
         label: 'Assigned On',
@@ -61,8 +64,8 @@ function createRows(rows) {
             title: value.title,
             priority: value.priority,
             status: value.status,
-            assignedOn: value.assignedOn,
-            deadline: value.deadline,
+            assignedOn: value.createDate,
+            deadline: new Date(value.deadline).toLocaleString(),
             operations:
                 <>
                     <Link style={{ padding: ".1rem", display: "inline-block" }} to={"/feedbacks/"} >{/* + value._id */}
@@ -86,7 +89,7 @@ function TabPanel(props) {
         >
             {value === index && (
                 <Box sx={{ p: 3 }}>
-                    <Typography>{children}</Typography>
+                    <div>{children}</div>
                 </Box>
             )}
         </div>
@@ -106,24 +109,70 @@ function a11yProps(index) {
     };
 }
 
-export default function ListWorks() {
-    const [value, setValue] = useState(0);
+function divideDataToTabs(oldData, data) {
+    const pending = [];
+    const pastDue = [];
+    const completed = [];
 
-    const [rows, updateRows] = useState([])
+    const today = new Date();
+
+    data.forEach((work) => {
+        const deadline = new Date(work.deadline);
+        if (work.status) {
+            completed.push(work);
+        } else {
+            if ((deadline >= today) || (deadline.toLocaleDateString() === today.toLocaleDateString())) {
+                pending.push(work);
+            } else {
+                pastDue.push(work);
+            }
+        }
+    })
+
+    return { pending: createRows(pending), pastDue: createRows(pastDue), completed: createRows(completed) }
+}
+
+export default function ListWorks() {
+    const [tabIndex, updateTabIndex] = useState(0);
+
+    const [rows, updateRows] = useState({})
+    const [data, updateData] = useState([])
+    const [searchOptions, updateSearchOptions] = useState([])
 
     const handleChange = (event, newValue) => {
-        setValue(newValue);
+        updateTabIndex(newValue);
     };
 
-    useEffect(() => {
-        updateRows(createRows(data));
-    }, [])
+    function getData(fetchFrom = () => fetchData("get", "http://localhost:2324/work"), reloadSearchOptions = true) {
+        fetchFrom().then(data => {
+            // console.log(data)
+            data = data.reverse()
+            updateRows((oldData) => divideDataToTabs(oldData, data));
+            updateData(data);
 
-    const searchOptions = [
-        { title: 'Sejal Khilari' },
-        { title: 'Sumit Kawale' },
-        { title: 'Anuja Katruwar' },
-    ]
+            reloadSearchOptions && updateSearchOptions(() => {
+                const names = data.map(data => {
+                    return { title: data.fullName ?? "" };
+                })
+                const emails = data.map(data => {
+                    return { title: data.emailID ?? "" };
+                })
+                // give Set a new array that contains only string title, destructure set in array and on that array, iterate through map and get values as objects
+                let uniqueNames = [...new Set(names.map(data => data.title))].map(title => { return { title } })
+                return [...uniqueNames, ...emails]
+            });
+
+        })
+            .catch(error => {
+                if (error.message == "token is not valid") {
+                    navigate("/authentication/login");
+                }
+            })
+    }
+
+    useEffect(() => {
+        getData();
+    }, [])
 
     return <>
         <PageTitle title="assign work">
@@ -132,7 +181,7 @@ export default function ListWorks() {
         <div className='headerGap'></div>
 
         <div className='container-top'>
-            <Link to={"/works/assign"}>
+            <Link to={"/works/add"}>
                 <Button variant="contained" color='info' startIcon={<AddBoxOutlinedIcon />}>
                     Assign New Task
                 </Button>
@@ -163,20 +212,20 @@ export default function ListWorks() {
 
         <Box sx={{ width: '100%' }}>
             <Box sx={{ borderBottom: 2, borderColor: 'divider', }}>
-                <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
+                <Tabs value={tabIndex} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="PENDING" {...a11yProps(0)} />
                     <Tab label="PAST-DUE" {...a11yProps(1)} />
                     <Tab label="COMPLETED" {...a11yProps(2)} />
                 </Tabs>
             </Box>
-            <TabPanel value={value} index={0}>
-                <DataTable rows={rows} cols={columns} />
+            <TabPanel value={tabIndex} index={0}>
+                <DataTable rows={rows.pending || []} cols={columns} />
             </TabPanel>
-            <TabPanel value={value} index={1}>
-                <DataTable rows={rows} cols={columns} />
+            <TabPanel value={tabIndex} index={1}>
+                <DataTable rows={rows.pastDue || []} cols={columns} />
             </TabPanel>
-            <TabPanel value={value} index={2}>
-                <DataTable rows={rows} cols={columns} />
+            <TabPanel value={tabIndex} index={2}>
+                <DataTable rows={rows.completed || []} cols={columns} />
             </TabPanel>
         </Box>
     </>
