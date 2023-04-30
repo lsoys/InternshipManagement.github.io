@@ -7,7 +7,10 @@ const FeedbackSchema = new mongoose.Schema({
         required: [true, "internID is required field"]
     },
     feedbacks: [{
-        feedback: String,
+        feedback: {
+            type: String,
+            trim: true,
+        },
         createDate: {
             type: String,
             default: () => new Date().toLocaleString(),
