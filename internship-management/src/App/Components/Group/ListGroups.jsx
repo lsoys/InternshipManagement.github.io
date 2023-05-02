@@ -75,7 +75,7 @@ export default function Groups() {
 
     const [loadingStatus, updateLoadingStatus] = useState(true);
 
-    function getData(fetchFrom = () => fetchData("get", "http://localhost:2324/group"), reloadSearchOptions = true) {
+    function getData(fetchFrom = () => fetchData("get", "/group"), reloadSearchOptions = true) {
         fetchFrom().then(data => {
             console.log(data)
             data = data.reverse()
@@ -111,7 +111,7 @@ export default function Groups() {
 
         const searchText = e.target.searchText.value;
 
-        getData(() => fetchData("get", "http://localhost:2324/group/search?q=" + searchText), false)
+        getData(() => fetchData("get", "/group/search?q=" + searchText), false)
     }
 
 

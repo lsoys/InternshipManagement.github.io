@@ -146,7 +146,7 @@ export default function ListWorks() {
         updateTabIndex(newValue);
     };
 
-    function getData(fetchFrom = () => fetchData("get", "http://localhost:2324/work"), reloadSearchOptions = true) {
+    function getData(fetchFrom = () => fetchData("get", "/work"), reloadSearchOptions = true) {
         fetchFrom().then(data => {
             // console.log(data)
             data = data.reverse()

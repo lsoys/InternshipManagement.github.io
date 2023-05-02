@@ -66,7 +66,7 @@ export default function ListCandidates() {
 
     const navigate = useNavigate();
 
-    function getData(fetchFrom = () => fetchData("get", "http://localhost:2324/candidate/"), reloadSearchOptions = true) {
+    function getData(fetchFrom = () => fetchData("get", "/candidate/"), reloadSearchOptions = true) {
         fetchFrom().then(data => {
             console.log(data)
             data = data.reverse()
@@ -100,7 +100,7 @@ export default function ListCandidates() {
 
         const searchText = e.target.searchText.value;
 
-        getData(() => fetchData("get", "http://localhost:2324/candidate/search?q=" + searchText), false)
+        getData(() => fetchData("get", "/candidate/search?q=" + searchText), false)
     }
 
     useEffect(() => {
