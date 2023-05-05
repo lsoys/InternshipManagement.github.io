@@ -1,6 +1,9 @@
 import common from "../../../common"
+import config from "../../../config"
 
 export default function fetchData(method, api, body) {
+    api = config.API_BASE_URL + api;
+
     return new Promise((res, rej) => {
         var myHeaders = new Headers();
         const jwt = common.getCookieJWT();

@@ -30,7 +30,7 @@ export default function InternFeedback() {
         navigate("/feedbacks");
     };
 
-    function getData(fetchFrom = () => fetchData("get", "http://localhost:2324/feedback?internID=" + candidateID), reloadSearchOptions = true) {
+    function getData(fetchFrom = () => fetchData("get", "/feedback?internID=" + candidateID), reloadSearchOptions = true) {
         fetchFrom().then(data => {
             data = data.feedbacks.reverse()
             updateFeedbacks(data);

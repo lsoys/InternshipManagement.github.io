@@ -102,7 +102,7 @@ export default function ListInterns() {
 
     const [loadingStatus, updateLoadingStatus] = useState(true);
 
-    function getData(fetchFrom = () => fetchData("get", "http://localhost:2324/candidate/intern"), reloadSearchOptions = true) {
+    function getData(fetchFrom = () => fetchData("get", "/candidate/intern"), reloadSearchOptions = true) {
         fetchFrom().then(data => {
             console.log(data)
             data = data.reverse()
@@ -140,7 +140,7 @@ export default function ListInterns() {
 
         const searchText = e.target.searchText.value;
 
-        getData(() => fetchData("get", "http://localhost:2324/candidate/intern/search?q=" + searchText), false)
+        getData(() => fetchData("get", "/candidate/intern/search?q=" + searchText), false)
     }
 
 
