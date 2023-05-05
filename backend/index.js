@@ -48,7 +48,10 @@ app.use((error, req, res, next) => {
 // SERVER
 const port = process.env.PORT ?? 2324;
 const databaseConnection = require("./database/connect")
-databaseConnection.then(() => {
+databaseConnection.then((mongoose) => {
+    mongoose.set('debug', true) // enable logging collection methods + arguments to the console/file
+
+    console.log("Model Names: ", mongoose.modelNames())
     app.listen(port, () => {
         console.log("http://localhost:" + port);
     })

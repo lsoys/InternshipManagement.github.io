@@ -64,7 +64,7 @@ export default function Login() {
                 navigate("/")
             })
             .catch(error => {
-                console.log('error', error)
+                console.log('error', error.message)
                 if (error.message == "Invalid User") {
                     setError({ username: error.message });
                 } else if (error.message == "Invalid Password") {

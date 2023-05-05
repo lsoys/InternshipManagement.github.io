@@ -88,9 +88,10 @@ export default function InternFeedback() {
             .then(result => {
                 console.log(result)
                 getData()
+                event.target.feedback.value = "";
             })
             .catch(error => {
-                console.log('error', error)
+                console.log('error', error.message)
 
                 if (error.message == "token is not valid") {
                     navigate("/authentication/login");

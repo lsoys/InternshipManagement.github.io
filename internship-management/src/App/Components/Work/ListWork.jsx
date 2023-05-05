@@ -19,8 +19,6 @@ import "../../css/work.css"
 import DataTable from '../Common/DataTable';
 import fetchData from "../Common/fetchData"
 
-import data from "../../../TestData/work.json"
-
 export const WorkContext = createContext();
 
 const columns = [
@@ -52,7 +50,7 @@ const columns = [
     },
     {
         id: 'operations',
-        label: 'Operation',
+        label: 'Task Details',
         align: 'right',
     },
 ];
@@ -68,8 +66,8 @@ function createRows(rows) {
             deadline: new Date(value.deadline).toLocaleDateString(),
             operations:
                 <>
-                    <Link style={{ padding: ".1rem", display: "inline-block" }} to={"/feedbacks/"} >{/* + value._id */}
-                        <Button size="small" variant="contained" style={{ textTransform: "capitalize" }}><Typography noWrap>OPERATION</Typography></Button>
+                    <Link style={{ padding: ".1rem", display: "inline-block" }} to={"/works/" + value._id} >{/* + value._id */}
+                        <Button size="small" variant="contained" style={{ textTransform: "capitalize" }}><Typography noWrap>View</Typography></Button>
                     </Link>
                 </>
         }
@@ -152,6 +150,7 @@ export default function ListWorks() {
             data = data.reverse()
             updateRows((oldData) => divideDataToTabs(oldData, data));
             updateData(data);
+            console.log(data)
 
             reloadSearchOptions && updateSearchOptions(() => {
                 const titles = data.map(data => {
@@ -230,5 +229,8 @@ export default function ListWorks() {
                 <DataTable loading={loadingStatus} rows={rows.completed || []} cols={columns} />
             </TabPanel>
         </Box>
+        <WorkContext.Provider value={data}>
+            <Outlet />
+        </WorkContext.Provider>
     </>
 }

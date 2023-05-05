@@ -18,6 +18,7 @@ import Login from './Authentication/Login';
 import InternProfile from './App/Components/Candidate/Components/InternProfile';
 import InternFeedback from './App/Components/Feedback/Components/InternFeedback';
 import NewWork from './App/Components/Work/newWork';
+import ShowWork from './App/Components/Work/components/ShowWork';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -44,6 +45,7 @@ root.render(
 
 				<Route path="works/add/" element={<NewWork />} />
 				<Route path="works/" element={<ListWorks />} >
+					<Route path=':workID' element={<ShowWork />} />
 				</Route>
 
 				<Route path="feedbacks/" element={<Feedbacks />}>

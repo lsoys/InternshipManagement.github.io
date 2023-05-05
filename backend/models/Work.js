@@ -16,9 +16,10 @@ const WorkSchema = new mongoose.Schema({
     assignTo: [{
         _id: {
             type: mongoose.ObjectId,
-            required: true
+            required: true,
+            ref:"candidate"
         },
-        type: {
+        type: { // intern, group
             type: String,
             required: true
         }
