@@ -12,7 +12,7 @@ import LoadingButton from '@mui/lab/LoadingButton';
 import common from "../../../common"
 
 export default function NewCandidate() {
-    const [formData, updateFormData] = useState({})
+    const [formData, updateFormData] = useState({ mobile: "", alternativeMobile: "" })
 
     const [helperData, updateHelperData] = useState({})
 
@@ -37,13 +37,60 @@ export default function NewCandidate() {
                 [e.target.name]: String(e.target.value).trim()
             }
             // console.log(newObj)
+            validateForm(newObj);
             return newObj;
         })
     }
 
+    function validateForm(formData, final = false) {// faltu logic lavla ahe 
+        let status = true;
+        if (formData.mobile.length !== 10 && final) {
+            updateHelperData((oldData) => {
+                return { ...oldData, mobile: "Incorrect Mobile Number" }
+            })
+            status = false;
+        } else if (formData.mobile.length > 10) {
+            updateHelperData((oldData) => {
+                return { ...oldData, mobile: "Incorrect Mobile Number" }
+            })
+            status = false;
+        } else {
+            updateHelperData((oldData) => {
+                return { ...oldData, mobile: "" }
+            })
+        }
+
+        if (formData.alternativeMobile.length !== 0) {
+            if (formData.alternativeMobile.length !== 10 && final) {
+                updateHelperData((oldData) => {
+                    return { ...oldData, alternativeMobile: "Incorrect Mobile Number" }
+                })
+                status = false;
+            } else if (formData.alternativeMobile.length > 10) {
+                updateHelperData((oldData) => {
+                    return { ...oldData, alternativeMobile: "Incorrect Mobile Number" }
+                })
+                status = false;
+            }
+            else {
+                updateHelperData((oldData) => {
+                    return { ...oldData, alternativeMobile: "" }
+                })
+            }
+        }
+
+        return status;
+    }
+
     function submitForm(e) {
         e.preventDefault();
+        updateHelperData({})
         setLoading(true);
+
+        if (!validateForm(formData, true)) {
+            setLoading(false);
+            return;
+        };
 
         // FETCH REQUEST
         var myHeaders = new Headers();
@@ -105,7 +152,7 @@ export default function NewCandidate() {
                             label="First Name"
                             variant="filled"
                             name='firstName'
-                            onKeyUp={updateForm}
+                            onChange={updateForm}
                             helperText={helperData.firstName || ""}
                         />
                         <TextField
@@ -114,7 +161,7 @@ export default function NewCandidate() {
                             label="Last Name"
                             variant="filled"
                             name='lastName'
-                            onKeyUp={updateForm}
+                            onChange={updateForm}
                             helperText={helperData.lastName || ""}
                         />
                         <TextField
@@ -124,7 +171,7 @@ export default function NewCandidate() {
                                 inputComponent: NumericFormatCustom,
                             }}
                             name="age"
-                            onKeyUp={updateForm}
+                            onChange={updateForm}
                             value={formData.age || ""}
                             helperText={helperData.age || ""}
                         />
@@ -134,7 +181,7 @@ export default function NewCandidate() {
                             label="ResumeLink"
                             variant="filled"
                             name="resumeLink"
-                            onKeyUp={updateForm}
+                            onChange={updateForm}
                             helperText={helperData.resumeLink || ""}
                         />
                     </div>
@@ -148,9 +195,10 @@ export default function NewCandidate() {
                             }}
                             variant="filled"
                             name="mobile"
-                            onKeyUp={updateForm}
+                            onChange={updateForm}
                             value={formData.mobile || ""}
                             helperText={helperData.mobile || ""}
+                            error={helperData.mobile || false}
                         />
                         <TextField
                             label="Alternative Mobile"
@@ -159,9 +207,10 @@ export default function NewCandidate() {
                                 inputComponent: NumericFormatCustom,
                             }}
                             name="alternativeMobile"
-                            onKeyUp={updateForm}
+                            onChange={updateForm}
                             value={formData.alternativeMobile || ""}
                             helperText={helperData.alternativeMobile || ""}
+                            error={helperData.alternativeMobile || false}
                         />
                         <TextField
                             required
@@ -171,7 +220,7 @@ export default function NewCandidate() {
                             type="email"
                             variant="filled"
                             name="emailID"
-                            onKeyUp={updateForm}
+                            onChange={updateForm}
                             helperText={helperData.emailID || ""}
                         />
                         <br />
@@ -179,14 +228,14 @@ export default function NewCandidate() {
                             id="outlined-password-input"
                             label="GitHub"
                             name="github"
-                            onKeyUp={updateForm}
+                            onChange={updateForm}
                             helperText={helperData.github || ""}
                         />
                         <TextField
                             id="outlined-password-input"
                             label="Telegram"
                             name="telegram"
-                            onKeyUp={updateForm}
+                            onChange={updateForm}
                             helperText={helperData.telegram || ""}
                         />
                     </div>
@@ -195,21 +244,21 @@ export default function NewCandidate() {
                             id="standard-required"
                             label="College Name"
                             name="collegeName"
-                            onKeyUp={updateForm}
+                            onChange={updateForm}
                             helperText={helperData.collegeName || ""}
                         />
                         <TextField
                             id="standard-required"
                             label="Current Graduation"
                             name="currentGraduation"
-                            onKeyUp={updateForm}
+                            onChange={updateForm}
                             helperText={helperData.currentGraduation || ""}
                         />
                         <TextField
                             id="standard-required"
                             label="Graduation Year"
                             name="graduationYear"
-                            onKeyUp={updateForm}
+                            onChange={updateForm}
                             helperText={helperData.graduationYear || ""}
                         />
                     </div>

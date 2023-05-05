@@ -31,7 +31,7 @@ export default function fetchData(method, api, body) {
                 res(result);
             })
             .catch(error => {
-                // console.log('error', error)
+                console.log(error)
                 rej(error);
             });
     })

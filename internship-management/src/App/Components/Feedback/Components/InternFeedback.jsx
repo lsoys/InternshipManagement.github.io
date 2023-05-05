@@ -12,13 +12,6 @@ import fetchData from "../../Common/fetchData";
 import { InternContext } from '../ListFeedbacks';
 import common from "../../../../common";
 
-let dd = `hello my name is sumit and i know one girl. 
-I feel good when I see her, and I wish to just see her 😍 for my remaining life
-I wish we could together! She is soooo special for me!. I LOVE HER :)
-It's hard to describe her in few words,
-She is the best one in this earth!! she is pretty, cleaver, polite, free, open minded and with full of active sense of humber!!
-she is just beautiful!`
-
 export default function InternFeedback() {
     const candidateID = useParams().candidateID
 

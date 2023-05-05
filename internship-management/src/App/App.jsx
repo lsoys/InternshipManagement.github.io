@@ -135,11 +135,12 @@ export default function MiniDrawer() {
 	React.useEffect(() => {
 		localStorage.getItem("driver-state") && setOpen(true);
 
-		fetchData("POST", "http://localhost:2324/authentication/verify")
+		fetchData("POST", "/authentication/verify")
 			.then(data => {
 				// console.log(data)
 			})
 			.catch(error => {
+				// console.log(error)
 				// if (error.message == "token is not valid") {
 				navigate("/authentication/login");
 				// }

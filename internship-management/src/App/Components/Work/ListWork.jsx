@@ -163,6 +163,7 @@ export default function ListWorks() {
 
         })
             .catch(error => {
+                console.log(error)
                 if (error.message == "token is not valid") {
                     navigate("/authentication/login");
                 }
