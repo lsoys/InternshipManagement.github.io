@@ -195,7 +195,7 @@ export default function NewWork() {
     }
 
     return <>
-        <PageTitle title="add new candidate">
+        <PageTitle title="Assign New Work">
             <AddBoxOutlinedIcon />
         </PageTitle>
         <div className='headerGap'></div>
