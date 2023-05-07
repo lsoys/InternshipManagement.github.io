@@ -17,8 +17,8 @@ import NewGroup from './App/Components/Group/NewGroup';
 import Login from './Authentication/Login';
 import InternProfile from './App/Components/Candidate/Components/InternProfile';
 import InternFeedback from './App/Components/Feedback/Components/InternFeedback';
-import NewWork from './App/Components/Work/newWork';
-import ShowWork from './App/Components/Work/components/ShowWork';
+import NewWork from './App/Components/Work/NewWork';
+import ShowWork from './App/Components/Work/Components/ShowWork';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
