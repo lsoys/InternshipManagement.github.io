@@ -60,6 +60,9 @@ function createRows(rows) {
                     <Link style={{ padding: ".1rem", display: "inline-block" }} to={`/groups/${value._id}/delete`} >
                         <Button size="small" variant="contained" style={{ textTransform: "capitalize" }}><Typography noWrap>Delete</Typography></Button>
                     </Link>*/}
+                    <Link style={{ padding: ".1rem", display: "inline-block" }} to={"/groups/" + value._id} >
+                        <Button size="small" variant="contained" style={{ textTransform: "capitalize" }}><Typography noWrap>View</Typography></Button>
+                    </Link>
                     <Link style={{ padding: ".1rem", display: "inline-block" }} to={"/works/assign/" + value._id} >
                         <Button size="small" variant="contained" style={{ textTransform: "capitalize" }}><Typography noWrap>Assign Work</Typography></Button>
                     </Link>

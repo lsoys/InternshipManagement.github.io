@@ -42,9 +42,10 @@ export default function InternFeedback() {
             return;
         }
 
-        updateCandidate(listCandidates.find(candidate => candidate._id === candidateID))
+        const candidate = listCandidates.find(candidate => candidate._id === candidateID);
+        updateCandidate(candidate)
         if (!candidate) {
-            return;
+            return navigate("/feedbacks");
         }
 
         getData()

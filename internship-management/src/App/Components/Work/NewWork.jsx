@@ -140,13 +140,9 @@ export default function NewWork() {
         getData();
     }, [])
 
-    function submitForm(e) {
-        e.preventDefault();
-        setLoading(true);
-    }
-
     function submitAssignWork(e) {
         e.preventDefault();
+        setLoading(true);
 
         const assignTo = selectedOptions.map((value, index) => {
             const { id: _id, type } = value;

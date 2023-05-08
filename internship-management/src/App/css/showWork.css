@@ -1,0 +1,14 @@
+ul.showWork {
+    list-style         : circle;
+    list-style-position: inside;
+}
+
+ul.showWork li {
+    padding: 0.5rem;
+}
+
+.members {
+    padding: .5rem;
+    border-radius: 5px;
+    background: #55555515;
+}

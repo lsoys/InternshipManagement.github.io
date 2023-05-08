@@ -6,6 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import PersonIcon from '@mui/icons-material/Person';
 import TextField from '@mui/material/TextField';
 import Box from '@mui/material/Box';
+import GradeIcon from '@mui/icons-material/Grade';
 
 import { InternContext } from '../ListInterns';
 
@@ -235,9 +236,9 @@ export default function InternProfile() {
                                 {
                                     candidate.feedback.map((question, index) => {
                                         if (Number(question[1])) {
-                                            return <li key={"feedbackQuestion" + index}><strong>{question[0]}</strong> <span>{repeat(question[1], v => "⭐")}</span></li>
+                                            return <li key={"feedbackQuestion1" + index}><strong>{question[0]}</strong> <span>{repeat(question[1], v => <GradeIcon key={"feedbackQuestion" + index + v + "rating"} style={{ color: "#ffe159" }} />)}</span></li>
                                         } else {
-                                            return <li key={"feedbackQuestion" + index} className="text"><strong>{question[0]}:</strong> <span>{question[1]} </span></li>
+                                            return <li key={"feedbackQuestion2" + index} className="text"><strong>{question[0]}:</strong> <span>{question[1]} </span></li>
                                         }
                                     })
                                 }
