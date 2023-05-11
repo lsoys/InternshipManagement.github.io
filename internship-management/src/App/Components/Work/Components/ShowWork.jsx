@@ -213,7 +213,7 @@ export default function ShowWork() {
                                         </Select>
                                     </FormControl>
                                 </div>
-                                <LoadingButton
+                                {/* <LoadingButton
                                     onClick={statusSuccess ? null : handleSubmit}
                                     sx={{ mt: 2, mr: 2 }}
                                     endIcon={statusSuccess ? <CheckIcon /> : <EditIcon />}
@@ -224,7 +224,10 @@ export default function ShowWork() {
                                 >
                                     <span>{statusSuccess ? "Updated" : "Update"}</span>
                                 </LoadingButton>
-                                <Button onClick={deleteWorkRequest} sx={{ mt: 2 }} variant="contained" color='error'>Delete</Button>
+                                <Button onClick={deleteWorkRequest} sx={{ mt: 2 }} variant="contained" color='error'>Delete</Button> */}
+                                <Button sx={{ mt: 2 }} onClick={function () {
+                                    navigate("/works/")
+                                }} variant="contained" color='primary'>Close</Button>
                             </Box>
                         </form>
                     </div>

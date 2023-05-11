@@ -69,11 +69,15 @@ export default function CandidateSelection(props) {
     const [value, setValue] = useState({});
     const [hover, setHover] = useState({});
 
+    const [fromDateHelper, updateFromDateHelper] = useState("");
+    const [toDateHelper, updateToDateHelper] = useState("");
+
+
     // console.log(value);
 
     const [internshipType, updateInternshipType] = useState('free');
     const [internshipAmount, updateInternshipAmount] = useState({ amount: 0, take: false });
-    
+
     const handleInternshipType = (event) => {
         updateInternshipType(event.target.value);
         let take = false;
@@ -127,19 +131,60 @@ export default function CandidateSelection(props) {
 
     function submitHire(e) {
         e.preventDefault();
+        let checkStatus = 0;
 
-        const feedback = getFeedback();
-        const hire = 1;
-        const hireDetails = {
-            fromDate: e.target.fromDate.value,
-            toDate: e.target.toDate.value,
-            isPaid: internshipType === "paid",
-            isStipend: internshipType === "stipend",
-            amount: internshipAmount.amount
+        const fromDate = new Date(e.target.fromDate.value);
+        const toDate = new Date(e.target.toDate.value);
+        const today = new Date();
+
+        /**
+         * user should not enter fromDate below 6 months and above 6 months from current date
+         * user should select toDate as fromDate to minimum 1 month and maximum 1 year
+         */
+
+        const fromDateMinLimit = 6; // month/s
+        const fromDateMaxLimit = 6; // month/s
+        const toDateMaximumLimit = 12; // month/s
+        const toDateMinimumLimit = 1; // month/s
+
+        const fromDatePastLimit = new Date();
+        fromDatePastLimit.setMonth(fromDatePastLimit.getMonth() - fromDateMinLimit);
+
+        const fromDateFutureLimit = new Date();
+        fromDateFutureLimit.setMonth(fromDateFutureLimit.getMonth() + fromDateMaxLimit);
+
+        if (fromDate >= fromDatePastLimit && fromDate <= fromDateFutureLimit) {
+            checkStatus = 1;
+            updateFromDateHelper("");
+        } else updateFromDateHelper("date can be 6 months past or future");
+
+        const toDateMaxLimitDate = new Date(fromDate);
+        toDateMaxLimitDate.setMonth(toDateMaxLimitDate.getMonth() + toDateMaximumLimit)
+
+        const toDateMinLimitDate = new Date(fromDate);
+        toDateMinLimitDate.setMonth(toDateMinLimitDate.getMonth() + toDateMinimumLimit)
+
+        if (toDate <= toDateMaxLimitDate && toDate >= toDateMinLimitDate) {
+            checkStatus = 2;
+            updateToDateHelper("");
+        } else updateToDateHelper("can be minimum 1 month and maximum 1 year");
+
+
+        if (checkStatus == 2) {
+            const feedback = getFeedback();
+            const hire = 1;
+            const hireDetails = {
+                fromDate: e.target.fromDate.value,
+                toDate: e.target.toDate.value,
+                isPaid: internshipType === "paid",
+                isStipend: internshipType === "stipend",
+                amount: internshipAmount.amount
+            }
+            const data = { candidateID, feedback, hire, hireDetails };
+            updateCandidateData(data);
+        } else {
+            return false;
         }
-
-        const data = { candidateID, feedback, hire, hireDetails };
-        updateCandidateData(data);
 
         getData();
     }
@@ -260,8 +305,8 @@ export default function CandidateSelection(props) {
                                     type={"date"}
                                     id="outlined-required"
                                     label="From Date"
-                                    defaultValue=""
-                                    helperText=""
+                                    error={fromDateHelper || false}
+                                    helperText={fromDateHelper}
                                     variant="filled"
                                     name="fromDate"
                                     InputLabelProps={{
@@ -273,8 +318,8 @@ export default function CandidateSelection(props) {
                                     type={"date"}
                                     id="outlined-required"
                                     label="To Date"
-                                    defaultValue=""
-                                    helperText=""
+                                    error={toDateHelper || false}
+                                    helperText={toDateHelper}
                                     variant="filled"
                                     name="toDate"
                                     InputLabelProps={{

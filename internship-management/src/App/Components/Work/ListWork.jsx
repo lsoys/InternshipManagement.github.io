@@ -216,8 +216,8 @@ export default function ListWorks() {
             <Box sx={{ borderBottom: 2, borderColor: 'divider', }}>
                 <Tabs value={tabIndex} onChange={handleChange} aria-label="basic tabs example">
                     <Tab label="PENDING" {...a11yProps(0)} />
-                    <Tab label="PAST-DUE" {...a11yProps(1)} />
-                    <Tab label="COMPLETED" {...a11yProps(2)} />
+                    <Tab label="PAST-DUE" style={{color:"red"}} {...a11yProps(1)} />
+                    <Tab label="COMPLETED" style={{color:"green"}} {...a11yProps(2)} />
                 </Tabs>
             </Box>
             <TabPanel value={tabIndex} index={0}>

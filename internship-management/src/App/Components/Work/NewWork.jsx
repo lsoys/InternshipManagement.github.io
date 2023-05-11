@@ -82,6 +82,8 @@ export default function NewWork() {
     const [internsList, updateInternsList] = useState([])
     const [selectedOptions, setSelectedOptions] = useState([]);
 
+    const [selectedInternsListHelperText, updateSelectedInternsListHelperText] = useState("");
+
     console.log(formData, selectedOptions)
 
     const handleListChange = (event, value) => {
@@ -92,10 +94,18 @@ export default function NewWork() {
     const [statusSuccess, updateStatusSuccess] = useState(false);
 
     function handleSubmit() {
+        updateSelectedInternsListHelperText("");
+
+        if (!selectedOptions.length) {
+            updateSelectedInternsListHelperText("Please Select at least 1 intern");
+            return;
+        }
+
         document.forms["createWorkForm"].requestSubmit()
     }
 
     function resetForm() {
+        updateSelectedInternsListHelperText("");
         document.forms["createWorkForm"].reset();
         updateStatusSuccess(false)
         setLoading(false)
@@ -121,7 +131,19 @@ export default function NewWork() {
             array = array.reverse()
             console.log(array);
             updateInternsList((oldData) => {
-                let newData = array.map(data => { return { id: data._id, name: data.fullName + " - " + data.emailID, email: data.emailID, type: "intern" } });
+                let newData = array
+                    .filter(intern => { // removing interns who's internship is completed
+                        console.log(intern)
+                        const endDate = new Date(intern.hireDetails.toDate).setHours(0, 0, 0, 0);
+                        const today = new Date().setHours(0, 0, 0, 0);
+
+                        if (endDate >= today) {
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    })
+                    .map(data => { return { id: data._id, name: data.fullName + " - " + data.emailID, email: data.emailID, type: "intern" } });
                 return newData;
             });
         })
@@ -217,10 +239,9 @@ export default function NewWork() {
                             helperText={helperData.title || ""}
                         />
                         <TextField
-                            required
+                            // required
                             id="outlined-required"
                             label="Work Description"
-                            variant="filled"
                             name='description'
                             fullWidth
                             multiline
@@ -250,7 +271,7 @@ export default function NewWork() {
                                 </li>
                             )}
                             renderInput={(params) => (
-                                <TextField {...params} label={`Members (${selectedOptions.length})`} placeholder="List of interns / groups" />
+                                <TextField {...params} error={selectedInternsListHelperText || false} helperText={selectedInternsListHelperText || ""} label={`Members (${selectedOptions.length})`} placeholder="List of interns / groups" />
                             )}
                         />
                     </div>
