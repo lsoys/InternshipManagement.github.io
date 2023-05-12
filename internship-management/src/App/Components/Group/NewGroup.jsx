@@ -52,10 +52,13 @@ export default function CandidateInformation(props) {
     const [internsList, updateInternsList] = useState([])
     const [selectedOptions, setSelectedOptions] = useState([]);
 
+    const [selectedInternsListHelperText, updateSelectedInternsListHelperText] = useState("");
+
     const addGroupPopupState = useState(true);
 
     const handleListChange = (event, value) => {
         setSelectedOptions(value);
+        updateSelectedInternsListHelperText("");
     };
 
     // eslint-disable-next-line
@@ -72,10 +75,10 @@ export default function CandidateInformation(props) {
                 let newData = array.map(data => { return { id: data._id, name: data.fullName + " - " + data.emailID, email: data.emailID, type: "intern" } });
                 return newData;
             });
-            updateInternsList(oldData => {
-                let newData = data.map(data => { return { id: data._id, name: data.groupName, type: "group" } });;
-                return [...oldData, ...newData]
-            })
+            // updateInternsList(oldData => {
+            //     let newData = data.map(data => { return { id: data._id, name: data.groupName, type: "group" } });;
+            //     return [...oldData, ...newData]
+            // })
         })
     }
 
@@ -85,6 +88,11 @@ export default function CandidateInformation(props) {
 
     function submitCreateGroup(e) {
         e.preventDefault();
+
+        if (!selectedOptions.length) {
+            updateSelectedInternsListHelperText("Please Select at least 1 intern");
+            return;
+        }
 
         const groupName = e.target.groupName.value
         const newGroup = { groupName, members: selectedOptions }
@@ -129,6 +137,7 @@ export default function CandidateInformation(props) {
                         >
                             <div>
                                 <TextField
+                                    required
                                     id="standard-basic"
                                     label="Group Name"
                                     variant="outlined"
@@ -155,7 +164,7 @@ export default function CandidateInformation(props) {
                                         </li>
                                     )}
                                     renderInput={(params) => (
-                                        <TextField {...params} label={`Members (${selectedOptions.length})`} placeholder="List of interns / groups" />
+                                        <TextField {...params} error={!!selectedInternsListHelperText || false} helperText={selectedInternsListHelperText || ""} label={`Members (${selectedOptions.length})`} placeholder="List of interns / groups" />
                                     )}
                                 />
                             </div>

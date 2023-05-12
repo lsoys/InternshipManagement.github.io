@@ -19,6 +19,7 @@ import InternProfile from './App/Components/Candidate/Components/InternProfile';
 import InternFeedback from './App/Components/Feedback/Components/InternFeedback';
 import NewWork from './App/Components/Work/NewWork';
 import ShowWork from './App/Components/Work/Components/ShowWork';
+import GroupDetails from './App/Components/Group/Components/GroupDetails';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 
@@ -41,6 +42,7 @@ root.render(
 
 				<Route path="groups/" element={<Groups />}>
 					<Route path="add/" element={<NewGroup />} />
+					<Route path=":groupID" element={<GroupDetails />} />
 				</Route>
 
 				<Route path="works/add/" element={<NewWork />} />

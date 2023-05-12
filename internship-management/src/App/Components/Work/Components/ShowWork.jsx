@@ -60,8 +60,9 @@ export default function ShowWork() {
             updateFormData({
                 ...work
             });
+            console.log(work)
         } else {
-            alert("no work found");
+            // alert("no work found");
             return navigate("/works/");
         }
     }, [data])
@@ -126,6 +127,9 @@ export default function ShowWork() {
                                         value={formData.title || ""}
                                         onKeyUp={updateForm}
                                         helperText={helperData.title || ""}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
                                     />
                                     <TextField
                                         required
@@ -142,6 +146,9 @@ export default function ShowWork() {
                                         value={formData.description || ""}
                                         onKeyUp={updateForm}
                                         helperText={helperData.description || ""}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
                                     />
                                 </div>
                                 <div>
@@ -173,7 +180,7 @@ export default function ShowWork() {
                                         <ul className={"showWork"}>
                                             {
                                                 formData.assignTo?.map((value, index) => {
-                                                    return <li key={value + index}>{value._id.fullName}</li>
+                                                    return <li key={value + index}>{value?.name}</li>
                                                 })
                                             }
                                         </ul>
@@ -193,6 +200,9 @@ export default function ShowWork() {
                                         onChange={updateForm}
                                         value={formData.deadline || ""}
                                         helperText={helperData.deadline || ""}
+                                        InputProps={{
+                                            readOnly: true,
+                                        }}
                                     />
 
                                     <FormControl sx={{ minWidth: 150, m: 2 }}>
@@ -204,6 +214,7 @@ export default function ShowWork() {
                                             label="Priority"
                                             name="priority"
                                             onChange={updateForm}
+                                            readOnly
                                         >
                                             <MenuItem value={1}>1</MenuItem>
                                             <MenuItem value={2}>2</MenuItem>

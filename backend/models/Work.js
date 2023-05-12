@@ -13,7 +13,7 @@ const WorkSchema = new mongoose.Schema({
         type: Number, // 1=completed, 0=pending
         default: 0,
     },
-    assignTo: [{
+    assignTo: Array/* [{
         _id: {
             type: mongoose.ObjectId,
             required: true,
@@ -23,14 +23,13 @@ const WorkSchema = new mongoose.Schema({
             type: String,
             required: true
         }
-    }],
+    }] */,
     deadline: {
         type: String,
         required: true,
     },
     description: {
         type: String,
-        required: true,
     },
     createDate: {
         type: String,

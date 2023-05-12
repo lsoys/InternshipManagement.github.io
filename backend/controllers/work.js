@@ -4,7 +4,7 @@ const controller = {
     async getWorks(req, res, next) {
         try {
             // const works = await Work.find().populate("assignTo._id");
-            const works = await Work.find().populate("assignTo._id");
+            const works = await Work.find()//.populate("assignTo._id");
             res.status(200).json(works);
         } catch (error) {
             console.log(error)
@@ -15,7 +15,7 @@ const controller = {
     async addWork(req, res, next) {
         try {
             let { title, assignTo, priority, deadline, description } = req.body;
-            if (title && assignTo.length && deadline && description) {
+            if (title && assignTo.length && deadline) {
                 assignTo = assignTo.map(v => {
                     return { ...v, refType: v.type == "intern" ? "candidate" : "group" }
                 })

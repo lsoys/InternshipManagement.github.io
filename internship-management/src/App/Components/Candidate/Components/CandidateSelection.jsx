@@ -154,7 +154,7 @@ export default function CandidateSelection(props) {
         fromDateFutureLimit.setMonth(fromDateFutureLimit.getMonth() + fromDateMaxLimit);
 
         if (fromDate >= fromDatePastLimit && fromDate <= fromDateFutureLimit) {
-            checkStatus = 1;
+            checkStatus++;
             updateFromDateHelper("");
         } else updateFromDateHelper("date can be 6 months past or future");
 
@@ -165,7 +165,7 @@ export default function CandidateSelection(props) {
         toDateMinLimitDate.setMonth(toDateMinLimitDate.getMonth() + toDateMinimumLimit)
 
         if (toDate <= toDateMaxLimitDate && toDate >= toDateMinLimitDate) {
-            checkStatus = 2;
+            checkStatus++;
             updateToDateHelper("");
         } else updateToDateHelper("can be minimum 1 month and maximum 1 year");
 

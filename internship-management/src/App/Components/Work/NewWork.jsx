@@ -123,7 +123,7 @@ export default function NewWork() {
             }
             // console.log(newObj)
             return newObj;
-        })
+        })  
     }
 
     function getData(parameter = "") {
@@ -144,13 +144,13 @@ export default function NewWork() {
                         }
                     })
                     .map(data => { return { id: data._id, name: data.fullName + " - " + data.emailID, email: data.emailID, type: "intern" } });
+                    console.log("data", newData)
                 return newData;
             });
         })
 
         fetchGroupsData(parameter).then(array => {
             array = array.reverse()
-            console.log(array);
             updateInternsList((oldData) => {
                 let newData = array.map(data => { return { id: data._id, name: data.groupName + " - group", type: "group" } });
                 return [...oldData, ...newData];
@@ -166,10 +166,10 @@ export default function NewWork() {
         e.preventDefault();
         setLoading(true);
 
-        const assignTo = selectedOptions.map((value, index) => {
+        const assignTo = selectedOptions/* .map((value, index) => {
             const { id: _id, type } = value;
             return { _id, type }
-        })
+        }) */
         const newWork = { ...formData, assignTo }
         console.log(newWork)
 
