@@ -17,6 +17,7 @@ import Select from '@mui/material/Select';
 
 import PageTitle from '../Common/PageTitle';
 import common from "../../../common"
+import config from '../../../config';
 
 function fetchInternsData() {
     return new Promise((res, rej) => {
@@ -32,7 +33,7 @@ function fetchInternsData() {
             credentials: 'include', // This is required to send cookies with the request
         };
 
-        fetch("http://localhost:2324/candidate/intern", requestOptions)
+        fetch(config.API_BASE_URL + "/candidate/intern", requestOptions)
             .then(response => response.json())
             .then(result => {
                 // console.log(result);
@@ -59,7 +60,7 @@ function fetchGroupsData() {
             credentials: 'include', // This is required to send cookies with the request
         };
 
-        fetch("http://localhost:2324/group", requestOptions)
+        fetch(config.API_BASE_URL + "h/group", requestOptions)
             .then(response => response.json())
             .then(result => {
                 // console.log(result);
@@ -123,7 +124,7 @@ export default function NewWork() {
             }
             // console.log(newObj)
             return newObj;
-        })  
+        })
     }
 
     function getData(parameter = "") {
@@ -144,7 +145,7 @@ export default function NewWork() {
                         }
                     })
                     .map(data => { return { id: data._id, name: data.fullName + " - " + data.emailID, email: data.emailID, type: "intern" } });
-                    console.log("data", newData)
+                console.log("data", newData)
                 return newData;
             });
         })
@@ -165,11 +166,22 @@ export default function NewWork() {
     function submitAssignWork(e) {
         e.preventDefault();
         setLoading(true);
+        updateHelperData({ deadline: "" })
+
+        const deadline = new Date(e.target.deadline.value).setHours(0, 0, 0, 0);
+        const today = new Date().setHours(0, 0, 0, 0);
+
+        if (deadline < today) {
+            updateHelperData({ deadline: "you cannot give past deadline date" })
+            setLoading(false);
+            return;
+        }
 
         const assignTo = selectedOptions/* .map((value, index) => {
             const { id: _id, type } = value;
             return { _id, type }
         }) */
+
         const newWork = { ...formData, assignTo }
         console.log(newWork)
 
@@ -186,7 +198,7 @@ export default function NewWork() {
             credentials: 'include', // This is required to send cookies with the request
         };
 
-        fetch("http://localhost:2324/work", requestOptions)
+        fetch(config.API_BASE_URL + "/work", requestOptions)
             .then(async response => {
                 if (response.ok) {
                     return response.json()
@@ -284,6 +296,7 @@ export default function NewWork() {
                             variant="filled"
                             name='deadline'
                             onChange={updateForm}
+                            error={!!helperData.deadline}
                             helperText={helperData.deadline || ""}
                             InputLabelProps={{
                                 shrink: true,

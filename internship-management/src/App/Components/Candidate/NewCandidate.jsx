@@ -10,6 +10,7 @@ import { NumericFormatCustom } from '../Common/FormCustom';
 import LoadingButton from '@mui/lab/LoadingButton';
 
 import common from "../../../common"
+import config from "../../../config"
 
 export default function NewCandidate() {
     const [formData, updateFormData] = useState({ mobile: "", alternativeMobile: "" })
@@ -107,7 +108,7 @@ export default function NewCandidate() {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:2324/candidate/", requestOptions)
+        fetch(config.API_BASE_URL+"/candidate/", requestOptions)
             .then(async response => {
                 if (response.ok) {
                     return response.json()

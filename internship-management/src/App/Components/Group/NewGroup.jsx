@@ -15,6 +15,7 @@ import CheckBoxOutlineBlankIcon from '@mui/icons-material/CheckBoxOutlineBlank';
 import { GroupContext } from './ListGroups';
 import PopUp from "../Common/PopUp";
 import common from "../../../common"
+import config from "../../../config";
 
 function fetchInternsData() {
     return new Promise((res, rej) => {
@@ -30,7 +31,7 @@ function fetchInternsData() {
             credentials: 'include', // This is required to send cookies with the request
         };
 
-        fetch("http://localhost:2324/candidate/intern", requestOptions)
+        fetch(config.API_BASE_URL + "/candidate/intern", requestOptions)
             .then(response => response.json())
             .then(result => {
                 // console.log(result);
@@ -110,7 +111,7 @@ export default function CandidateInformation(props) {
             credentials: 'include', // This is required to send cookies with the request
         };
 
-        fetch("http://localhost:2324/group", requestOptions)
+        fetch(config.API_BASE_URL + "/group", requestOptions)
             .then(response => response.json())
             .then(result => {
                 console.log(result);

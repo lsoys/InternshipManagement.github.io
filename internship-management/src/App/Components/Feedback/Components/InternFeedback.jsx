@@ -11,6 +11,7 @@ import fetchData from "../../Common/fetchData";
 
 import { InternContext } from '../ListFeedbacks';
 import common from "../../../../common";
+import config from "../../../../config";
 
 export default function InternFeedback() {
     const candidateID = useParams().candidateID
@@ -71,7 +72,7 @@ export default function InternFeedback() {
             redirect: 'follow'
         };
 
-        fetch("http://localhost:2324/feedback/", requestOptions)
+        fetch(config.API_BASE_URL + "/feedback/", requestOptions)
             .then(async response => {
                 if (response.ok) {
                     return response.json()

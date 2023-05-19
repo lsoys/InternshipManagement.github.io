@@ -7,6 +7,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import "./login.css"
 import { useState } from 'react';
 
+import config from "../config"
+
 export default function Login() {
     const navigate = useNavigate();
 
@@ -41,7 +43,7 @@ export default function Login() {
             // redirect: 'follow'
         };
 
-        fetch("http://localhost:2324/authentication/login", requestOptions)
+        fetch(config.API_BASE_URL + "/authentication/login", requestOptions)
             .then(async response => {
                 if (response.ok) {
                     // Store JWT token in cookie

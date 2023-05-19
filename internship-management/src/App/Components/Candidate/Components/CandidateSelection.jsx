@@ -20,6 +20,7 @@ import FormLabel from '@mui/material/FormLabel';
 
 import { CandidateContext } from '../ListCandidates';
 import common from "../../../../common"
+import config from "../../../../config";
 
 const questions = [
     "Communication Skills",
@@ -54,7 +55,7 @@ function updateCandidateData(data) {
         redirect: 'follow'
     };
 
-    fetch("http://localhost:2324/candidate/selection", requestOptions)
+    fetch(config.API_BASE_URL + "/candidate/selection", requestOptions)
         .then(response => response.ok ? response.json() : response.text())
         .then(result => console.log(result))
         .catch(error => console.log('error', error));
@@ -142,7 +143,7 @@ export default function CandidateSelection(props) {
          * user should select toDate as fromDate to minimum 1 month and maximum 1 year
          */
 
-        const fromDateMinLimit = 6; // month/s
+        const fromDateMinLimit = 0; // month/s
         const fromDateMaxLimit = 6; // month/s
         const toDateMaximumLimit = 12; // month/s
         const toDateMinimumLimit = 1; // month/s
@@ -156,7 +157,7 @@ export default function CandidateSelection(props) {
         if (fromDate >= fromDatePastLimit && fromDate <= fromDateFutureLimit) {
             checkStatus++;
             updateFromDateHelper("");
-        } else updateFromDateHelper("date can be 6 months past or future");
+        } else updateFromDateHelper("past date not allowed");
 
         const toDateMaxLimitDate = new Date(fromDate);
         toDateMaxLimitDate.setMonth(toDateMaxLimitDate.getMonth() + toDateMaximumLimit)
